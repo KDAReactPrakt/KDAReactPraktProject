@@ -1,0 +1,61 @@
+.mainBlock {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.nameBlock {
+    margin-top: 40px;
+    width: 100%;
+}
+
+.tabBlock{
+    margin-top: 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.tabBlock > p {
+    margin: auto;
+}
+
+.itemTabBlock {
+    border-bottom: 1px solid grey;
+    width: 33%;
+}
+
+.active {
+    border-bottom: 1px solid blue;
+}
+
+.ingredientsBlock {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    height: 550px;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+.ingredientsHeader {
+    width: 100%;
+    text-align: left;
+    margin-top: 40px;
+}
+
+.ingredientsItem {
+    width: 45%;
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.ingredientsItem  section {
+    margin: 4px auto;
+    display: flex;
+    flex-direction: row;
+}

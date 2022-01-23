@@ -1,0 +1,13 @@
+.menuItem{
+    display: flex;
+    flex-direction: row;
+}
+
+.menuItem > p {
+    margin-right: 20px;
+    margin-left: 8px;
+}
+
+.menuItem:first-child {
+    margin-left: 20px;
+}

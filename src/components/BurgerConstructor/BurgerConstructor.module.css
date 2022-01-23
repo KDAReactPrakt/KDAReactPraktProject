@@ -1,0 +1,35 @@
+.item, .middleItem {
+    width: 100%;
+    justify-content: flex-end;
+    flex-direction: row;
+    display: flex;
+}
+
+.middleItem > section {
+    display: flex;
+    margin: auto 8px auto auto;
+}
+
+.constructor {
+    margin-top: 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.summary {
+    display: flex;
+    margin-top: 40px;
+    justify-content: flex-end;
+    flex-direction: row;
+}
+
+.info {
+    margin: auto 40px auto auto;
+    display: flex;
+    flex-direction: row;
+}
+
+.info > svg {
+    margin: auto;
+}
