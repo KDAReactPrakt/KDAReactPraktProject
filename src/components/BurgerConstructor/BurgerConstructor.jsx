@@ -1,13 +1,25 @@
 import React from "react";
 import {Button, ConstructorElement, CurrencyIcon, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import content from '../../utils/data.json';
 import style from './BurgerConstructor.module.css'
+import ModalOverlay from "../BurgerIngredients/ModalOverlay/ModalOverlay";
+import {ingredientType} from "../../types/Ingredient";
+import PropTypes from "prop-types";
 
-const BurgerConstructor = () => {
-    const [data] = React.useState(content);
+const BurgerConstructor = (props) => {
+    const data = props.data;
+    const [activeModal, setActiveModal] = React.useState(false);
     const [middleElement] = React.useState([1,3,4])
+
+    const closeModal = () => {
+        setActiveModal(false);
+    }
+
+    const openModal = () => {
+        setActiveModal(true)
+    }
     return (
         <div>
+            {activeModal && (<ModalOverlay close={closeModal}/>)}
             <div className={style.constructor}>
                 <div className={style.item}>
                     <ConstructorElement
@@ -45,12 +57,14 @@ const BurgerConstructor = () => {
                     <p className="text text_type_digits-medium">100500&nbsp;</p>
                     <CurrencyIcon type="primary" />
                 </div>
-                <Button type="primary" size="medium">
+                <Button type="primary" size="medium" onClick={openModal}>
                     Оформить заказ
                 </Button>
             </div>
         </div>
     )
 };
+
+BurgerConstructor.propTypes = PropTypes.arrayOf(ingredientType);
 
 export default BurgerConstructor;

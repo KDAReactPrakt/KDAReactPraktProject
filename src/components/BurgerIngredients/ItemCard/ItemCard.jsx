@@ -2,7 +2,7 @@ import React from "react";
 import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 
 const ItemCard = (props) => (
-    <div className={props.class} key={props.index}>
+    <div className={props.class} key={props.index} onClick={()=>props.onClick(props.item._id)}>
         <Counter count={1}/>
         <img alt={props.item.name} src={props.item.image_large}/>
         <section>
