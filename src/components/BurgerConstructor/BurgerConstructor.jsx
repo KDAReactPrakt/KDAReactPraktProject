@@ -5,6 +5,7 @@ import style from './BurgerConstructor.module.css'
 
 const BurgerConstructor = () => {
     const [data] = React.useState(content);
+    const [middleElement] = React.useState([1,3,4])
     return (
         <div>
             <div className={style.constructor}>
@@ -12,46 +13,28 @@ const BurgerConstructor = () => {
                     <ConstructorElement
                         type="top"
                         isLocked={true}
-                        text={data[0].name}
+                        text={data[0].name + ' (верх)'}
                         price={data[0].price}
                         thumbnail={data[0].image_mobile}
                     />
                 </div>
-                <div className={style.middleItem}>
-                    <section>
-                        <DragIcon type="primary" />
-                    </section>
-                    <ConstructorElement
-                        text={data[1].name}
-                        price={data[1].price}
-                        thumbnail={data[1].image_mobile}
-                    />
-                </div>
-                <div className={style.middleItem}>
-                    <section>
-                        <DragIcon type="primary" />
-                    </section>
-                    <ConstructorElement
-                        text={data[1].name}
-                        price={data[1].price}
-                        thumbnail={data[1].image_mobile}
-                    />
-                </div>
-                <div className={style.middleItem}>
-                    <section>
-                        <DragIcon type="primary" />
-                    </section>
-                    <ConstructorElement
-                        text={data[1].name}
-                        price={data[1].price}
-                        thumbnail={data[1].image_mobile}
-                    />
-                </div>
+                {middleElement.map((item,index)=>(
+                    <div className={style.middleItem} key={index}>
+                        <section>
+                            <DragIcon type="primary" />
+                        </section>
+                        <ConstructorElement
+                            text={data[item].name}
+                            price={data[item].price}
+                            thumbnail={data[item].image_mobile}
+                        />
+                    </div>
+                ))}
                 <div className={style.item}>
                     <ConstructorElement
                         type="bottom"
                         isLocked={true}
-                        text={data[0].name}
+                        text={data[0].name + ' (низ)'}
                         price={data[0].price}
                         thumbnail={data[0].image_mobile}
                     />

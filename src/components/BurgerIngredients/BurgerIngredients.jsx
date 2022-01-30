@@ -43,9 +43,9 @@ class BurgerIngredients extends React.Component {
                             Булки
                         </p>
                     </div>
-                    {this.state.data.map((element, index) => (
+                    {this.state.data.map((element) => (
                         element.type === 'bun' && (
-                            <ItemCard key={index} item={element} class={style.ingredientsItem}/>)
+                            <ItemCard key={element._id} item={element} class={style.ingredientsItem}/>)
                     ))}
                     <div className={style.ingredientsHeader}>
                         <p className="text text_type_main-medium">

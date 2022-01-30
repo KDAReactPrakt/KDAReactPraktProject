@@ -12,16 +12,4 @@ code {
     monospace;
 }
 
-.Wrapper {
-  margin: auto;
-  display: flex;
-  justify-content: space-between;
-  width: 1240px;
-  flex-wrap: wrap;
-}
 
-.mainContentBlock {
-  display: flex;
-  justify-content: space-between;
-  width: 600px;
-}
