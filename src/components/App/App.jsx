@@ -27,7 +27,12 @@ function App() {
 
     React.useEffect(()=>{
     fetch(URL)
-        .then(res => res.json())
+        .then(res =>{
+            if (!res.ok) {
+                return Promise.reject(res.status);
+            }
+            return res.json();
+        })
         .then(data => {
             setState(ingredientsMap(data.data));
             setLoadingComplete(true);

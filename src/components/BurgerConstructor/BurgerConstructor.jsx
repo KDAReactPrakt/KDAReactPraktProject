@@ -1,9 +1,10 @@
 import React from "react";
 import {Button, ConstructorElement, CurrencyIcon, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import style from './BurgerConstructor.module.css'
-import ModalOverlay from "../BurgerIngredients/ModalOverlay/ModalOverlay";
-import {ingredientType} from "../../types/Ingredient";
 import PropTypes from "prop-types";
+import {ingredientType} from "../../types/Ingredient";
+import Modal from "../Modal/Modal";
+import OrderDetails from "../OrderDetails/OrderDetails";
 
 const BurgerConstructor = (props) => {
     const data = props.data;
@@ -19,7 +20,11 @@ const BurgerConstructor = (props) => {
     }
     return (
         <div>
-            {activeModal && (<ModalOverlay close={closeModal}/>)}
+            {activeModal && (
+                <Modal data="Детали ингредиента" close={closeModal}>
+                    <OrderDetails/>
+                </Modal>
+            )}
             <div className={style.constructor}>
                 <div className={style.item}>
                     <ConstructorElement
@@ -30,18 +35,20 @@ const BurgerConstructor = (props) => {
                         thumbnail={data[0].image_mobile}
                     />
                 </div>
-                {middleElement.map((item,index)=>(
-                    <div className={style.middleItem} key={index}>
-                        <section>
-                            <DragIcon type="primary" />
-                        </section>
-                        <ConstructorElement
-                            text={data[item].name}
-                            price={data[item].price}
-                            thumbnail={data[item].image_mobile}
-                        />
-                    </div>
-                ))}
+                <div className={style.middleBlock}>
+                    {middleElement.map((item,index)=>(
+                        <div className={style.middleItem} key={index}>
+                            <section>
+                                <DragIcon type="primary" />
+                            </section>
+                            <ConstructorElement
+                                text={data[item].name}
+                                price={data[item].price}
+                                thumbnail={data[item].image_mobile}
+                            />
+                        </div>
+                    ))}
+                </div>
                 <div className={style.item}>
                     <ConstructorElement
                         type="bottom"
@@ -65,6 +72,8 @@ const BurgerConstructor = (props) => {
     )
 };
 
-BurgerConstructor.propTypes = PropTypes.arrayOf(ingredientType);
+BurgerConstructor.propTypes = {
+    data: PropTypes.arrayOf(ingredientType)
+};
 
 export default BurgerConstructor;

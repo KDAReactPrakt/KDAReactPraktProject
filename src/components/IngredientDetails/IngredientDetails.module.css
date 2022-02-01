@@ -1,21 +1,3 @@
-.modalWindow {
-    position: fixed;
-    background-color: black;
-    left: 50%;
-    margin-left: -300px;
-    top: 50%;
-    margin-top: -250px;
-    width: 600px;
-    height: 500px;
-    z-index: 100;
-}
-
-.info {
-    margin: 40px 40px 0 40px;
-    display: flex;
-    justify-content: space-between;
-}
-
 .infoBlock{
     width: 100%;
     height: 100%;
