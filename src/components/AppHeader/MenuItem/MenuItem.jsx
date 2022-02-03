@@ -18,7 +18,7 @@ const MenuItem = (props) => {
 
 
 MenuItem.propTypes = {
-        text: PropTypes.string
+        text: PropTypes.string.isRequired
     };
 
 export default MenuItem;

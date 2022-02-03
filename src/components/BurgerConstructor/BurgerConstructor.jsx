@@ -21,7 +21,7 @@ const BurgerConstructor = (props) => {
     return (
         <div>
             {activeModal && (
-                <Modal data="Детали ингредиента" close={closeModal}>
+                <Modal close={closeModal}>
                     <OrderDetails/>
                 </Modal>
             )}
@@ -73,7 +73,7 @@ const BurgerConstructor = (props) => {
 };
 
 BurgerConstructor.propTypes = {
-    data: PropTypes.arrayOf(ingredientType)
+    data: PropTypes.arrayOf(ingredientType.isRequired).isRequired
 };
 
 export default BurgerConstructor;

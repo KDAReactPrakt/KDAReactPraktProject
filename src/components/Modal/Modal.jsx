@@ -8,13 +8,27 @@ import PropTypes from "prop-types";
 const modalRoot = document.getElementById("react-modals");
 
 const Modal = (props) => {
+    const escFunction = React.useCallback((event) => {
+        if(event.keyCode === 27) {
+            props.close();
+        }
+    }, []);
+
+    React.useEffect(() => {
+        document.addEventListener("keydown", escFunction, false);
+
+        return () => {
+            document.removeEventListener("keydown", escFunction, false);
+        };
+    }, [escFunction]);
+
         return ReactDOM.createPortal(
             <>
                 <ModalOverlay close={props.close}/>
                 <div className={style.modalWindow}>
                     <div className={style.info}>
                         <p className="text text_type_main-medium">
-                            {props.data && props.data}
+                            {props.title}
                         </p>
                         <CloseIcon type="primary" onClick={props.close}/>
                     </div>
@@ -26,8 +40,8 @@ const Modal = (props) => {
 }
 
 Modal.propTypes = {
-    data: PropTypes.string,
-    close: PropTypes.func
+    title: PropTypes.string,
+    close: PropTypes.func.isRequired
 };
 
 export default Modal

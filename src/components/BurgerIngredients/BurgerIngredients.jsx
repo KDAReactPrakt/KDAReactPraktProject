@@ -42,24 +42,10 @@ const BurgerIngredients = (props) => {
         return data.find( item => item._id === id)
     }
 
-    const escFunction = React.useCallback((event) => {
-        if(event.keyCode === 27) {
-            setActiveModal(false);
-        }
-    }, []);
-
-    React.useEffect(() => {
-        document.addEventListener("keydown", escFunction, false);
-
-        return () => {
-            document.removeEventListener("keydown", escFunction, false);
-        };
-    }, []);
-
     return (
         <div className={style.mainBlock}>
             {activeModal && (
-                <Modal data="Детали ингредиента" close={closeModal}>
+                <Modal title="Детали ингредиента" close={closeModal}>
                       <IngredientDetails data={activeIngredient} />
                 </Modal>
             )}
@@ -105,7 +91,7 @@ const BurgerIngredients = (props) => {
 }
 
 BurgerIngredients.propTypes = {
-    data: PropTypes.arrayOf(ingredientType)
+    data: PropTypes.arrayOf(ingredientType.isRequired).isRequired
 };
 
 export default BurgerIngredients;

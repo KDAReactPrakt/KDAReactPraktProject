@@ -1,6 +1,6 @@
 import React from "react";
 import style from './ModalOverlay.module.css'
-import {ingredientType} from "../../types/Ingredient";
+import PropTypes from "prop-types";
 
 const ModalOverlay = (props) => {
     return (
@@ -10,7 +10,7 @@ const ModalOverlay = (props) => {
 }
 
 ModalOverlay.propTypes = {
-    data: ingredientType
+    close: PropTypes.func.isRequired
 };
 
 export default ModalOverlay

@@ -20,9 +20,9 @@ const ItemCard = (props) => (
 );
 
 ItemCard.propTypes = {
-    item: ingredientType,
-    class: PropTypes.string,
-    onclick: PropTypes.func
+    item: ingredientType.isRequired,
+    class: PropTypes.string.isRequired,
+    onClick: PropTypes.func.isRequired
 }
 
 export default ItemCard;
