@@ -5,16 +5,25 @@
     display: flex;
 }
 
+.middleItem {
+    margin: 16px auto;
+}
+
 .middleItem > section {
     display: flex;
     margin: auto 8px auto auto;
+}
+
+.middleBlock{
+    max-height: 400px;
+    overflow: hidden;
+    overflow-y: scroll;
 }
 
 .constructor {
     margin-top: 100px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
 }
 
 .summary {

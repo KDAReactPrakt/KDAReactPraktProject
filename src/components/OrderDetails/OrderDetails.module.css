@@ -1,0 +1,28 @@
+.infoBlock{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    text-align: center;
+}
+
+.number {
+ margin: 40px auto 0 auto;
+}
+
+.ident {
+    margin: 32px auto 0 auto;
+}
+
+.ok {
+    margin: 60px auto 0 auto;
+}
+
+.status{
+    margin: 60px auto 0 auto;
+}
+
+.toDo {
+    margin: 40px auto 120px auto;
+}

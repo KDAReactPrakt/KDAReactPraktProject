@@ -11,3 +11,7 @@
 .menuItem:first-child {
     margin-left: 20px;
 }
+
+.inactive {
+    color: rgb(132,132,168);
+}

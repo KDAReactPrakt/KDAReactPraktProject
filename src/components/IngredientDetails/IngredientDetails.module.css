@@ -1,0 +1,26 @@
+.infoBlock{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    text-align: center;
+}
+.image{
+    display: flex;
+    margin: 0 auto 16px auto;
+}
+
+.name{
+    display: flex;
+    margin: 0 auto 32px auto;
+}
+
+.properties{
+    display: flex;
+    margin: 0 auto 60px auto;
+}
+
+.propertiesBlock {
+    width: 125px;
+}
