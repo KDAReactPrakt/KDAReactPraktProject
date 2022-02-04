@@ -12,7 +12,7 @@ const Modal = (props) => {
         if(event.keyCode === 27) {
             props.close();
         }
-    }, []);
+    }, [props.close]);
 
     React.useEffect(() => {
         document.addEventListener("keydown", escFunction, false);
