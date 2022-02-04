@@ -28,6 +28,20 @@
   color: #61dafb;
 }
 
+.Wrapper {
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  width: 1240px;
+  flex-wrap: wrap;
+}
+
+.mainContentBlock {
+  display: flex;
+  justify-content: space-between;
+  width: 600px;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

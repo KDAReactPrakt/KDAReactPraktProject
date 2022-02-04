@@ -1,0 +1,24 @@
+
+.wrapper {
+    width: 1280px;
+    display: flex;
+    margin: auto;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.header {
+    background-color: rgb(28,28,33);
+    display: flex;
+    width: 100%;
+}
+
+.menu {
+    margin: 16px;
+    display: flex;
+}
+
+.mainLogo {
+    display: flex;
+    margin-left: -150px;
+}
