@@ -1,12 +1,13 @@
 import React from "react";
 import style from './OrderDetails.module.css'
 import {CheckMarkIcon} from "@ya.praktikum/react-developer-burger-ui-components";
+import PropTypes from "prop-types";
 
-const OrderDetails = () => {
+const OrderDetails = (props) => {
     return (
         <div className={style.infoBlock}>
             <div className={style.number}>
-                <p className="text text_type_digits-large">034536</p>
+                <p className="text text_type_digits-large">{props.number}</p>
             </div>
             <div className={style.ident}>
                 <p className="text text_type_main-default">
@@ -29,5 +30,9 @@ const OrderDetails = () => {
         </div>
     )
 }
+
+OrderDetails.propTypes = {
+    number: PropTypes.number
+};
 
 export default OrderDetails

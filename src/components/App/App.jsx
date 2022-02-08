@@ -4,6 +4,7 @@ import AppHeader from "../AppHeader/AppHeader";
 import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 import ingredientsMap from '../../functions/ingredientsMap'
+import {ConstructorContext} from "../../functions/constructorContext";
 
 function App() {
     const [state, setState] = React.useState([
@@ -48,7 +49,9 @@ function App() {
                     <BurgerIngredients data={state}/>
                 </section>
                 <section className={style.mainContentBlock}>
-                    <BurgerConstructor data={state}/>
+                    <ConstructorContext.Provider value={state}>
+                        <BurgerConstructor />
+                    </ConstructorContext.Provider>
                 </section>
             </div>
         </div>
