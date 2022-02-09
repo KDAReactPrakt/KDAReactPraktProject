@@ -1,28 +1,29 @@
 import React from "react";
 import {Button, ConstructorElement, CurrencyIcon, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import style from './BurgerConstructor.module.css'
-import PropTypes, {number} from "prop-types";
-import {ingredientType} from "../../types/Ingredient";
 import Modal from "../Modal/Modal";
 import OrderDetails from "../OrderDetails/OrderDetails";
 import {ConstructorContext} from "../../functions/constructorContext";
-import ingredientsMap from "../../functions/ingredientsMap";
 
 const SAVE_SUM = 'SAVE_SUM'
+
+const initialState = 0
+
+function reducer(state, action) {
+    switch (action.type) {
+        case SAVE_SUM:
+            return action.sum;
+        default:
+            throw new Error(`Wrong type of action: ${action.type}`);
+    }
+}
 
 const BurgerConstructor = () => {
     const data = React.useContext(ConstructorContext);
     const [activeModal, setActiveModal] = React.useState(false);
-    const [bun,setBun] = React.useState(0);
+    const [bun] = React.useState(0);
     const [orderNumber, setOrderNumber] = React.useState(0)
-
-    // const controlActionCreator = (sum) => ({
-    //     type: SAVE_SUM,
-    //     sum: number
-    // });
-    const initialState = { sum: 0 }
     const [sum, sumDispatcher] = React.useReducer(reducer, initialState, undefined);
-    // const [sum, setSum] = React.useState(0);
     const [middleElement] = React.useState([1,3,4])
     const [loadingComplete, setLoadingComplete] = React.useState(false)
 
@@ -30,15 +31,6 @@ const BurgerConstructor = () => {
         setActiveModal(false);
         setLoadingComplete(false);
         setOrderNumber(0);
-    }
-
-    function reducer(state, action) {
-        switch (action.type) {
-            case SAVE_SUM:
-                return { sum: action.sum };
-            default:
-                throw new Error(`Wrong type of action: ${action.type}`);
-        }
     }
 
     const getSum = () => {
@@ -83,7 +75,7 @@ const BurgerConstructor = () => {
 
     React.useEffect(()=>{
         orderNumber !== 0 && loadingComplete && setActiveModal(true);
-    },[loadingComplete])
+    },[loadingComplete, orderNumber])
 
     return (
         <div>
@@ -138,9 +130,5 @@ const BurgerConstructor = () => {
         </div>
     )
 };
-
-// BurgerConstructor.propTypes = {
-//     data: PropTypes.arrayOf(ingredientType.isRequired).isRequired
-// };
 
 export default BurgerConstructor;
