@@ -4,7 +4,8 @@ import AppHeader from "../AppHeader/AppHeader";
 import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 import ingredientsMap from '../../functions/ingredientsMap'
-import {ConstructorContext} from "../../functions/constructorContext";
+import {ConstructorContext} from "../../services/constructorContext";
+import {URL} from '../../data/data'
 
 function App() {
     const [state, setState] = React.useState([
@@ -24,10 +25,9 @@ function App() {
         }
     ]);
     const [loadingComplete, setLoadingComplete] = React.useState(false)
-    const URL = 'https://norma.nomoreparties.space/api/ingredients'
 
     React.useEffect(()=>{
-    fetch(URL)
+    fetch(URL + 'ingredients')
         .then(res =>{
             if (!res.ok) {
                 return Promise.reject(res.status);

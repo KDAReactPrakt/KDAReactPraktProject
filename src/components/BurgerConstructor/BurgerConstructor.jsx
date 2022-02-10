@@ -3,7 +3,8 @@ import {Button, ConstructorElement, CurrencyIcon, DragIcon} from "@ya.praktikum/
 import style from './BurgerConstructor.module.css'
 import Modal from "../Modal/Modal";
 import OrderDetails from "../OrderDetails/OrderDetails";
-import {ConstructorContext} from "../../functions/constructorContext";
+import {ConstructorContext} from "../../services/constructorContext";
+import {URL} from '../../data/data'
 
 const SAVE_SUM = 'SAVE_SUM'
 
@@ -20,7 +21,6 @@ function reducer(state, action) {
 
 const BurgerConstructor = () => {
     const data = React.useContext(ConstructorContext);
-    const [activeModal, setActiveModal] = React.useState(false);
     const [bun] = React.useState(0);
     const [orderNumber, setOrderNumber] = React.useState(0)
     const [sum, sumDispatcher] = React.useReducer(reducer, initialState, undefined);
@@ -28,7 +28,6 @@ const BurgerConstructor = () => {
     const [loadingComplete, setLoadingComplete] = React.useState(false)
 
     const closeModal = () => {
-        setActiveModal(false);
         setLoadingComplete(false);
         setOrderNumber(0);
     }
@@ -49,7 +48,7 @@ const BurgerConstructor = () => {
         middleElement.map((item) => result.ingredients.push(data[item]._id));
         result.ingredients.push(data[bun]._id);
 
-        fetch('https://norma.nomoreparties.space/api/orders',{
+        fetch(URL + 'orders',{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
@@ -73,13 +72,9 @@ const BurgerConstructor = () => {
         getOrderNumber();
     }
 
-    React.useEffect(()=>{
-        orderNumber !== 0 && loadingComplete && setActiveModal(true);
-    },[loadingComplete, orderNumber])
-
     return (
         <div>
-            {activeModal && (
+            {orderNumber !== 0 && loadingComplete && (
                 <Modal close={closeModal}>
                     <OrderDetails number={orderNumber}/>
                 </Modal>

@@ -32,7 +32,7 @@ const OrderDetails = (props) => {
 }
 
 OrderDetails.propTypes = {
-    number: PropTypes.number
+    number: PropTypes.number.isRequired
 };
 
 export default OrderDetails
