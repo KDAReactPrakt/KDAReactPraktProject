@@ -1,59 +1,38 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import style from './App.module.css';
 import AppHeader from "../AppHeader/AppHeader";
 import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
-import ingredientsMap from '../../functions/ingredientsMap'
-import {ConstructorContext} from "../../services/constructorContext";
-import {URL} from '../../data/data'
+import {getIngredientData} from "../../functions/getIngredient";
+import {useDispatch, useSelector} from "react-redux";
+import {DndProvider} from "react-dnd";
+import {HTML5Backend} from "react-dnd-html5-backend";
+
 
 function App() {
-    const [state, setState] = React.useState([
-        {
-            _id: '',
-            name: '',
-            type: '',
-            proteins: '',
-            fat: '',
-            carbohydrates: '',
-            calories: '',
-            price: '',
-            image: '',
-            image_mobile: '',
-            image_large: '',
-            __v:'',
-        }
-    ]);
-    const [loadingComplete, setLoadingComplete] = React.useState(false)
+    const dispatch = useDispatch();
 
-    React.useEffect(()=>{
-    fetch(URL + 'ingredients')
-        .then(res =>{
-            if (!res.ok) {
-                return Promise.reject(res.status);
-            }
-            return res.json();
-        })
-        .then(data => {
-            setState(ingredientsMap(data.data));
-            setLoadingComplete(true);
-        })
-        .catch(e => alert(e));
+    useEffect(()=>{
+        dispatch(getIngredientData());
     },[])
+
+    const loadingComplete = useSelector(state => {
+        return state.ingredients.ingredientsSuccess;
+    })
 
     return loadingComplete ? (
         <div className={style.App}>
             <AppHeader/>
-            <div className={style.Wrapper}>
-                <section className={style.mainContentBlock}>
-                    <BurgerIngredients data={state}/>
-                </section>
-                <section className={style.mainContentBlock}>
-                    <ConstructorContext.Provider value={state}>
+            <DndProvider  backend={HTML5Backend}>
+                <div className={style.Wrapper}>
+                    <section className={style.mainContentBlock}>
+                        <BurgerIngredients/>
+                    </section>
+                    <section className={style.mainContentBlock}>
                         <BurgerConstructor />
-                    </ConstructorContext.Provider>
-                </section>
-            </div>
+                    </section>
+                </div>
+            </DndProvider>
         </div>
     ) : (
         <>
