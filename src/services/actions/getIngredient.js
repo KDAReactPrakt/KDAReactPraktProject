@@ -2,9 +2,10 @@ import {
     GET_INGREDIENT,
     GET_INGREDIENT_FAILED,
     GET_INGREDIENT_SUCCESS
-} from '../services/actions/ingredient';
-import {URL} from '../data/data'
-import ingredientsMap from "./ingredientsMap";
+} from './ingredient';
+import {URL} from '../../data/data'
+import ingredientsMap from "../../functions/ingredientsMap";
+import {checkResponse} from "../../functions/checkResponse";
 
 //getIngredientData - получаем данные по ингредиентам из Api для REDUX
 export function getIngredientData() {
@@ -13,23 +14,15 @@ export function getIngredientData() {
             type: GET_INGREDIENT
         })
         // Запрашиваем данные у сервера
-        fetch(URL + 'ingredients').then(res => {
-            if (!res.ok) {
-                alert("Произошла ошибка при загрузке данных");
-                dispatch({
-                    type: GET_INGREDIENT_FAILED
-                })
-            }
-            return res.json();
-        })
+        fetch(URL + 'ingredients').then(checkResponse)
             .then(res => {
                 dispatch({
                     type: GET_INGREDIENT_SUCCESS,
                     data: ingredientsMap(res.data)
                 })
 
-            }).catch(() => {
-            alert("Произошла Непредвиденная ошибка");
+            }).catch((err) => {
+            alert(err ? err : "Произошла Непредвиденная ошибка");
             dispatch({
                 type: GET_INGREDIENT_FAILED
             })

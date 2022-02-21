@@ -3,7 +3,7 @@ import style from './App.module.css';
 import AppHeader from "../AppHeader/AppHeader";
 import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
-import {getIngredientData} from "../../functions/getIngredient";
+import {getIngredientData} from "../../services/actions/getIngredient";
 import {useDispatch, useSelector} from "react-redux";
 import {DndProvider} from "react-dnd";
 import {HTML5Backend} from "react-dnd-html5-backend";

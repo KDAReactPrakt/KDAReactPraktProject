@@ -2,8 +2,9 @@ import {
     GET_ORDER_NUMBER,
     GET_ORDER_NUMBER_FAILED,
     GET_ORDER_NUMBER_SUCCESS
-} from '../services/actions/orderNumber';
-import {URL} from '../data/data'
+} from './orderNumber';
+import {URL} from '../../data/data'
+import {checkResponse} from "../../functions/checkResponse";
 
 export function getOrderNumberAPI(post) {
     return function (dispatch) {
@@ -17,23 +18,15 @@ export function getOrderNumberAPI(post) {
                 'Content-Type': 'application/json;charset=utf-8'
             },
             body: JSON.stringify(post)
-        }).then(res => {
-            if (!res.ok) {
-                alert("Произошла ошибка при загрузке данных");
-                dispatch({
-                    type: GET_ORDER_NUMBER_FAILED
-                })
-            }
-            return res.json();
-        })
+        }).then(checkResponse)
             .then(res => {
                 dispatch({
                     type: GET_ORDER_NUMBER_SUCCESS,
                     data: res.order.number
                 })
 
-            }).catch(() => {
-            alert("Произошла Непредвиденная ошибка");
+            }).catch((err) => {
+            alert(err ? err : "Произошла Непредвиденная ошибка");
             dispatch({
                 type: GET_ORDER_NUMBER_FAILED
             })

@@ -4,12 +4,20 @@ import style from './BurgerConstructor.module.css'
 import Modal from "../Modal/Modal";
 import OrderDetails from "../OrderDetails/OrderDetails";
 import {useDispatch, useSelector} from "react-redux";
-import {getOrderNumberAPI} from "../../functions/getOrderNumberAPI";
+import {getOrderNumberAPI} from "../../services/actions/getOrderNumberAPI";
 import {CLEAR_ORDER_NUMBER} from "../../services/actions/orderNumber";
 import {useDrop} from "react-dnd";
-import {CHANGE_POSITION, DROP_ITEM, SET_BUN, SET_ITEM} from "../../services/actions/constructor";
+import {
+    CHANGE_POSITION, CLEAR_BASKET,
+    DROP_HOVER_POSITION,
+    DROP_ITEM,
+    SET_BUN,
+    SET_HOVER_POSITION,
+    SET_ITEM
+} from "../../services/actions/constructor";
 import {DECREASE_ITEM_COUNT, INCREASE_ITEM_COUNT} from "../../services/actions/ingredient";
 import ChosenItems from "./ChosenItems/ChosenItems";
+import { v4 as uuidv4 } from 'uuid';
 
 
 const BurgerConstructor = () => {
@@ -18,6 +26,7 @@ const BurgerConstructor = () => {
     const orderNumber = useSelector(state => state.orderNumber.orderNumber);
     const loadingComplete = useSelector(state => state.orderNumber.orderNumberSuccess);
     const dispatch = useDispatch();
+    const hoverPosition = useSelector(state => state.constructorOrder.hoverBoundingRect)
 
     const [{opacity}, dropTarget] = useDrop({
         accept: "item",
@@ -31,22 +40,36 @@ const BurgerConstructor = () => {
 
     const [, dropTargetSort] = useDrop({
         accept: "chosenItem",
-        drop(item, monitor) {
-            const hoverBoundingRect = item.ref.current.getBoundingClientRect()
-
+        drop() {
+            dispatch({
+                type: DROP_HOVER_POSITION,
+                position: 0
+            })
+        },
+        hover(item, monitor) {
+            if (hoverPosition === 0) {
+                dispatch({
+                    type: SET_HOVER_POSITION,
+                    position: item.ref.current.getBoundingClientRect().top
+                })
+            }
             const clientOffset = monitor.getClientOffset()
-
-            const hoverClientY = clientOffset.y - hoverBoundingRect.top
-            const changePosition = Math.floor(hoverClientY/hoverBoundingRect.height)
-
+            const hoverClientY = clientOffset.y - hoverPosition
+            const changePosition = Math.floor(hoverClientY/80)
             if (changePosition!==0){
                 dispatch({
                     type: CHANGE_POSITION,
-                    index: item.indexItem,
+                    id: item.chosenItemId,
                     difference: changePosition,
-                })
+                });
+                dispatch(
+                    dispatch({
+                        type: SET_HOVER_POSITION,
+                        position: hoverPosition + changePosition * 80
+                    })
+                )
             }
-        },
+        }
     });
 
     const onDropHandler = (item) => {
@@ -60,6 +83,9 @@ const BurgerConstructor = () => {
                 type: INCREASE_ITEM_COUNT,
                 id : item._id
             })
+            const { v4: uuidv4 } = require('uuid');
+            const uid = uuidv4();
+            item.uid === undefined ? item.uid = uid : item.uid = null
             dispatch({
                 type: SET_ITEM,
                 data: item
@@ -81,6 +107,9 @@ const BurgerConstructor = () => {
     const closeModal = () => {
         dispatch({
             type: CLEAR_ORDER_NUMBER
+        });
+        dispatch({
+            type: CLEAR_BASKET
         })
     }
 
@@ -142,7 +171,7 @@ const BurgerConstructor = () => {
                 {chosenItems.length !== 0 && (
                     <div className={style.middleBlock} ref={dropTargetSort}>
                         {chosenItems.map((item, index) => (
-                            <ChosenItems  key={index} item={item} indexItem={index} dropItem={dropItem}/>
+                            <ChosenItems  key={index} item={item} dropItem={dropItem}/>
                         ))}
                     </div>
                 )}

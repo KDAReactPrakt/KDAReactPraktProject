@@ -6,12 +6,11 @@ import {ingredientType} from "../../../types/Ingredient";
 import PropTypes from "prop-types";
 
 const ChosenItems = (props) => {
-    const chosenItemId = props.item._id;
-    const indexItem = props.indexItem;
+    const chosenItemId = props.item.uid;
     const ref = useRef(null);
     const [{opacityItem}, drag] = useDrag({
         type: 'chosenItem',
-        item: {chosenItemId, ref, indexItem},
+        item: {chosenItemId, ref},
         collect: monitor => ({
             opacityItem: monitor.isDragging() ? 0.5 : 1
         })
@@ -27,7 +26,7 @@ const ChosenItems = (props) => {
                 text={props.item.name}
                 price={props.item.price}
                 thumbnail={props.item.image_mobile}
-                handleClose={() => props.dropItem(props.item._id)}
+                handleClose={() => props.dropItem(props.item.uid)}
             />
         </div>
     )
@@ -36,7 +35,6 @@ const ChosenItems = (props) => {
 ChosenItems.propTypes = {
     item: ingredientType.isRequired,
     dropItem: PropTypes.func.isRequired,
-    indexItem: PropTypes.number.isRequired
 }
 
 export default ChosenItems
