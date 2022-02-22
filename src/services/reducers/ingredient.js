@@ -1,4 +1,5 @@
 import {
+    CLEAR_COUNT,
     DECREASE_ITEM_COUNT,
     GET_INGREDIENT,
     GET_INGREDIENT_FAILED,
@@ -73,6 +74,15 @@ export const ingredientsReducer = (state = ingredientsInitialState, action) => {
                     if(item._id === action.id) {
                         item.count = item.count - 1
                     }
+                    return item;
+                })
+            }
+        }
+        case CLEAR_COUNT: {
+            return {
+                ...state,
+                ingredientsData: state.ingredientsData.map(item => {
+                    item.count = 0;
                     return item;
                 })
             }

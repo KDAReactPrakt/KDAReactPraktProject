@@ -15,7 +15,7 @@ import {
     SET_HOVER_POSITION,
     SET_ITEM
 } from "../../services/actions/constructor";
-import {DECREASE_ITEM_COUNT, INCREASE_ITEM_COUNT} from "../../services/actions/ingredient";
+import {CLEAR_COUNT, DECREASE_ITEM_COUNT, INCREASE_ITEM_COUNT} from "../../services/actions/ingredient";
 import ChosenItems from "./ChosenItems/ChosenItems";
 import { v4 as uuidv4 } from 'uuid';
 
@@ -83,9 +83,7 @@ const BurgerConstructor = () => {
                 type: INCREASE_ITEM_COUNT,
                 id : item._id
             })
-            const { v4: uuidv4 } = require('uuid');
-            const uid = uuidv4();
-            item.uid === undefined ? item.uid = uid : item.uid = null
+            item.uid = uuidv4();
             dispatch({
                 type: SET_ITEM,
                 data: item
@@ -110,6 +108,9 @@ const BurgerConstructor = () => {
         });
         dispatch({
             type: CLEAR_BASKET
+        })
+        dispatch({
+            type: CLEAR_COUNT
         })
     }
 
@@ -170,8 +171,8 @@ const BurgerConstructor = () => {
                 )}
                 {chosenItems.length !== 0 && (
                     <div className={style.middleBlock} ref={dropTargetSort}>
-                        {chosenItems.map((item, index) => (
-                            <ChosenItems  key={index} item={item} dropItem={dropItem}/>
+                        {chosenItems.map((item) => (
+                            <ChosenItems  key={item.uid} item={item} dropItem={dropItem}/>
                         ))}
                     </div>
                 )}
