@@ -9,7 +9,7 @@ const modalRoot = document.getElementById("react-modals");
 
 const Modal = (props) => {
     const escFunction = React.useCallback((event) => {
-        if(event.keyCode === 27) {
+        if(event.key === 'Escape') {
             props.close();
         }
     }, [props.close]);

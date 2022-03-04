@@ -1,16 +1,17 @@
 import React from "react";
 import style from './IngredientDetails.module.css'
-import {ingredientType} from "../../types/Ingredient";
+import {useSelector} from "react-redux";
 
-const IngredientDetails = (props) => {
+const IngredientDetails = () => {
+    const data = useSelector( state => state.currentItem.currentItem)
     return (
         <div className={style.infoBlock}>
             <div className={style.image}>
-                <img src={props.data.image_large} alt={props.data.name}/>
+                <img src={data.image_large} alt={data.name}/>
             </div>
             <div className={style.name}>
                 <p className="text text_type_main-medium">
-                    {props.data.name}
+                    {data.name}
                 </p>
             </div>
             <div className={style.properties}>
@@ -18,33 +19,29 @@ const IngredientDetails = (props) => {
                     <p className="text text_type_main-small">
                         Калории, ккал
                     </p>
-                    <p className="text text_type_digits-default">{props.data.calories}</p>
+                    <p className="text text_type_digits-default">{data.calories}</p>
                 </section>
                 <section className={style.propertiesBlock}>
                     <p className="text text_type_main-small">
                         Белки, г
                     </p>
-                    <p className="text text_type_digits-default">{props.data.carbohydrates}</p>
+                    <p className="text text_type_digits-default">{data.carbohydrates}</p>
                 </section>
                 <section className={style.propertiesBlock}>
                     <p className="text text_type_main-small">
                         Жиры, г
                     </p>
-                    <p className="text text_type_digits-default">{props.data.fat}</p>
+                    <p className="text text_type_digits-default">{data.fat}</p>
                 </section>
                 <section className={style.propertiesBlock}>
                     <p className="text text_type_main-small">
                         Углеводы, г
                     </p>
-                    <p className="text text_type_digits-default">{props.data.proteins}</p>
+                    <p className="text text_type_digits-default">{data.proteins}</p>
                 </section>
             </div>
         </div>
     )
 }
-
-IngredientDetails.propTypes = {
-    data: ingredientType.isRequired
-};
 
 export default IngredientDetails

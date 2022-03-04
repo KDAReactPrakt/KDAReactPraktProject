@@ -1,71 +1,142 @@
-import React from "react";
-import {Button, ConstructorElement, CurrencyIcon, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
+import React, {useMemo} from "react";
+import {Button, ConstructorElement, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import style from './BurgerConstructor.module.css'
 import Modal from "../Modal/Modal";
 import OrderDetails from "../OrderDetails/OrderDetails";
-import {ConstructorContext} from "../../services/constructorContext";
-import {URL} from '../../data/data'
+import {useDispatch, useSelector} from "react-redux";
+import {getOrderNumberAPI} from "../../services/actions/getOrderNumberAPI";
+import {CLEAR_ORDER_NUMBER} from "../../services/actions/orderNumber";
+import {useDrop} from "react-dnd";
+import {
+    CHANGE_POSITION, CLEAR_BASKET,
+    DROP_HOVER_POSITION,
+    DROP_ITEM,
+    SET_BUN,
+    SET_HOVER_POSITION,
+    SET_ITEM
+} from "../../services/actions/constructor";
+import {CLEAR_COUNT, DECREASE_ITEM_COUNT, INCREASE_ITEM_COUNT} from "../../services/actions/ingredient";
+import ChosenItems from "./ChosenItems/ChosenItems";
+import { v4 as uuidv4 } from 'uuid';
 
-const SAVE_SUM = 'SAVE_SUM'
-
-const initialState = 0
-
-function reducer(state, action) {
-    switch (action.type) {
-        case SAVE_SUM:
-            return action.sum;
-        default:
-            throw new Error(`Wrong type of action: ${action.type}`);
-    }
-}
 
 const BurgerConstructor = () => {
-    const data = React.useContext(ConstructorContext);
-    const [bun] = React.useState(0);
-    const [orderNumber, setOrderNumber] = React.useState(0)
-    const [sum, sumDispatcher] = React.useReducer(reducer, initialState, undefined);
-    const [middleElement] = React.useState([1,3,4])
-    const [loadingComplete, setLoadingComplete] = React.useState(false)
+    const bun = useSelector(state => state.constructorOrder.chosenBun);
+    const chosenItems = useSelector(state => state.constructorOrder.chosenItems);
+    const orderNumber = useSelector(state => state.orderNumber.orderNumber);
+    const loadingComplete = useSelector(state => state.orderNumber.orderNumberSuccess);
+    const dispatch = useDispatch();
+    const hoverPosition = useSelector(state => state.constructorOrder.hoverBoundingRect)
+
+    const [{opacity}, dropTarget] = useDrop({
+        accept: "item",
+        drop(item) {
+            onDropHandler(item)
+        },
+        collect: monitor => ({
+            opacity: monitor.isOver() ? 0.5 : 1
+        })
+    });
+
+    const [, dropTargetSort] = useDrop({
+        accept: "chosenItem",
+        drop() {
+            dispatch({
+                type: DROP_HOVER_POSITION,
+                position: 0
+            })
+        },
+        hover(item, monitor) {
+            if (hoverPosition === 0) {
+                dispatch({
+                    type: SET_HOVER_POSITION,
+                    position: item.ref.current.getBoundingClientRect().top
+                })
+            }
+            const clientOffset = monitor.getClientOffset()
+            const hoverClientY = clientOffset.y - hoverPosition
+            const changePosition = Math.floor(hoverClientY/80)
+            if (changePosition!==0){
+                dispatch({
+                    type: CHANGE_POSITION,
+                    id: item.chosenItemId,
+                    difference: changePosition,
+                });
+                dispatch(
+                    dispatch({
+                        type: SET_HOVER_POSITION,
+                        position: hoverPosition + changePosition * 80
+                    })
+                )
+            }
+        }
+    });
+
+    const onDropHandler = (item) => {
+        if (item.type === 'bun') {
+            dispatch({
+                type: SET_BUN,
+                data: item
+            })
+        } else {
+            dispatch({
+                type: INCREASE_ITEM_COUNT,
+                id : item._id
+            })
+            item.uid = uuidv4();
+            dispatch({
+                type: SET_ITEM,
+                data: item
+            });
+        }
+    }
+
+    const dropItem = (itemId) => {
+        dispatch({
+            type: DECREASE_ITEM_COUNT,
+            id: itemId
+        })
+        dispatch({
+            type: DROP_ITEM,
+            id: itemId
+        })
+    }
 
     const closeModal = () => {
-        setLoadingComplete(false);
-        setOrderNumber(0);
+        dispatch({
+            type: CLEAR_ORDER_NUMBER
+        });
+        dispatch({
+            type: CLEAR_BASKET
+        })
+        dispatch({
+            type: CLEAR_COUNT
+        })
     }
 
     const getSum = () => {
-        return middleElement.reduce(function(sum, current) {
-            return sum + data[current].price;
-        }, 0) + 2 * data[bun].price;
+        const bunSum = bun.price === undefined ? 0 : bun.price*2;
+        const chosenItemsSum = chosenItems.length !== 0 ? chosenItems.reduce(function(sum, current) {
+                return current!== undefined ? sum + current.price : sum;
+            },0) : 0
+        return bunSum + chosenItemsSum;
     }
-
-    React.useEffect(()=> sumDispatcher({type:SAVE_SUM, sum: getSum()}),[bun, middleElement]);
+    const sum = useMemo(() =>getSum(), [bun, chosenItems])
 
     const getOrderNumber = () => {
         let result = {
             ingredients: []
         };
-        result.ingredients.push(data[bun]._id);
-        middleElement.map((item) => result.ingredients.push(data[item]._id));
-        result.ingredients.push(data[bun]._id);
+        if(bun._id !== undefined) {
+            result.ingredients.push(bun._id);
+        } else {
+            alert("Без булки сделать заказ нельзя!");
+            return;
+        }
+        chosenItems.map((item) => result.ingredients.push(item._id));
+        result.ingredients.push(bun._id);
 
-        fetch(URL + 'orders',{
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8'
-            },
-            body: JSON.stringify(result)
-        })
-            .then(res =>{
-                if (!res.ok) {
-                    return Promise.reject(res.status);
-                }
-                return res.json();
-            })
-            .then(data => {
-                setOrderNumber(data.order.number);
-                setLoadingComplete(true);
-            })
-            .catch(e => alert(e));
+        dispatch(getOrderNumberAPI(result));
     }
 
     const openModal = () => {
@@ -79,39 +150,43 @@ const BurgerConstructor = () => {
                     <OrderDetails number={orderNumber}/>
                 </Modal>
             )}
-            <div className={style.constructor}>
-                <div className={style.item}>
-                    <ConstructorElement
-                        type="top"
-                        isLocked={true}
-                        text={data[bun].name + ' (верх)'}
-                        price={data[bun].price}
-                        thumbnail={data[bun].image_mobile}
-                    />
-                </div>
-                <div className={style.middleBlock}>
-                    {middleElement.map((item,index)=>(
-                        <div className={style.middleItem} key={index}>
-                            <section>
-                                <DragIcon type="primary" />
-                            </section>
-                            <ConstructorElement
-                                text={data[item].name}
-                                price={data[item].price}
-                                thumbnail={data[item].image_mobile}
-                            />
-                        </div>
-                    ))}
-                </div>
-                <div className={style.item}>
-                    <ConstructorElement
-                        type="bottom"
-                        isLocked={true}
-                        text={data[bun].name + ' (низ)'}
-                        price={data[bun].price}
-                        thumbnail={data[bun].image_mobile}
-                    />
-                </div>
+            <div className={style.constructor} ref={dropTarget} style={{opacity}}>
+                {bun.name === undefined && chosenItems.length === 0 && (
+                    <div>
+                        <p className="text text_type_main-large">
+                            Перенесите сюда ингредиенты заказа
+                        </p>
+                    </div>
+                )}
+                {bun.name !== undefined && (
+                    <div className={style.item}>
+                        <ConstructorElement
+                            type="top"
+                            isLocked={true}
+                            text={bun.name + ' (верх)'}
+                            price={bun.price}
+                            thumbnail={bun.image_mobile}
+                        />
+                    </div>
+                )}
+                {chosenItems.length !== 0 && (
+                    <div className={style.middleBlock} ref={dropTargetSort}>
+                        {chosenItems.map((item) => (
+                            <ChosenItems  key={item.uid} item={item} dropItem={dropItem}/>
+                        ))}
+                    </div>
+                )}
+                {bun.name !== undefined && (
+                    <div className={style.item}>
+                        <ConstructorElement
+                            type="bottom"
+                            isLocked={true}
+                            text={bun.name + ' (низ)'}
+                            price={bun.price}
+                            thumbnail={bun.image_mobile}
+                        />
+                    </div>
+                )}
             </div>
             <div className={style.summary}>
                 <div className={style.info}>

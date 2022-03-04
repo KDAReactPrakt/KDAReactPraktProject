@@ -15,6 +15,7 @@ function ingredientsMap(array) {
             image_mobile: item.image_mobile ? item.image_mobile : '',
             image_large: item.image_large ? item.image_large : '',
             __v:item.__v ? item.__v : '',
+            count: 0
         }
     });
 }
