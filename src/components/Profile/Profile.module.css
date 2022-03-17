@@ -1,0 +1,63 @@
+.mainBlock {
+    margin: 150px auto;
+    width: 1145px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.data {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    width: 480px;
+    height: 800px;
+}
+
+.menu {
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    margin-left: 16px;
+}
+
+.menuItem {
+    width: 320px;
+    margin-right: 60px;
+    height: 64px;
+    display: flex;
+    flex-direction: column;
+}
+
+.menuItemLink {
+    margin-top: 16px;
+    text-decoration: none;
+    color: #8585AD;
+}
+
+.menuItemLinkActive {
+    color: white;
+}
+
+.dataItem {
+    display: flex;
+    margin: 0 auto 24px auto;
+}
+
+.info {
+    margin-top: 80px;
+    width: 320px;
+    height: 48px;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 24px;
+    color: #8585AD;
+    opacity: 0.4;
+}
+
+.button {
+    width: 150px;
+    margin: 20px auto;
+}

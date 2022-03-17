@@ -1,12 +1,13 @@
 import React from "react";
 import {Logo} from '@ya.praktikum/react-developer-burger-ui-components'
 import style from "./../AppHeader.module.css"
+import {Link} from "react-router-dom";
 
 
 const MainLogo = () => (
-    <div className={style.mainLogo}>
+    <Link className={style.mainLogo} to='/'>
         <Logo />
-    </div>
+    </Link>
 );
 
 export default MainLogo;
