@@ -15,6 +15,7 @@ import ForgotPwd from "../ForgotPwd/ForgotPwd";
 import ResetPwd from "../ResetPwd/ResetPwd";
 import Profile from "../Profile/Profile";
 import {ProtectedRoute} from "../ProtectedRoute/ProtectedRoute";
+import IngredientsId from "../IngredientsId/IngredientsId";
 
 
 function App() {
@@ -22,7 +23,7 @@ function App() {
 
     useEffect(()=>{
         dispatch(getIngredientData());
-    },[])
+    },[dispatch])
 
     const loadingComplete = useSelector(state => {
         return state.ingredients.ingredientsSuccess;
@@ -48,8 +49,8 @@ function App() {
                     <ProtectedRoute path="/profile">
                         <Profile/>
                     </ProtectedRoute>
-                    <ProtectedRoute path="ingredients/:id">
-
+                    <ProtectedRoute path="/ingredients/:id">
+                        <IngredientsId/>
                     </ProtectedRoute>
                     <ProtectedRoute path="/" exact={true}>
                         <DndProvider  backend={HTML5Backend}>

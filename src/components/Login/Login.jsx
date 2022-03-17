@@ -1,10 +1,9 @@
-import React, {useCallback} from "react";
+import React from "react";
 import style from './Login.module.css'
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
-import {Link, Redirect, useHistory, useLocation} from "react-router-dom";
+import {Link, Redirect, useLocation} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {logIn} from "../../services/actions/workWithAuthInfo";
-import {getCookie} from "../../functions/cookies";
 
 const Login = () => {
     const [email, setEmail] = React.useState('');
@@ -27,19 +26,7 @@ const Login = () => {
         };
         dispatch(logIn(form));
     }
-    // debugger
-    //const history = useHistory();
-    console.log(needToRedirect)
-    // const redirectToPath = useCallback(
-    //     (path) => {
-    //         history.replace({pathname: path});
-    //     },
-    //     [history]
-    // );
-    // React.useEffect(()=>{
-    //     needToRedirect!=='undefined' && redirectToPath();
-    // },[needToRedirect])
-    // debugger
+
     return needToRedirect === true ? (
         <Redirect to={refer}/>
     ) : (

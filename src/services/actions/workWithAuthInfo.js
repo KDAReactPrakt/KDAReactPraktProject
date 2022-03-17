@@ -98,7 +98,6 @@ export const logIn = (data) => {
             })
             .catch( e => {
                 e ? alert(e) : alert("Произошла ошибка");
-                console.log(e);
                 dispatch({
                     type: GET_LOGIN_INFO_FAILED
                 })

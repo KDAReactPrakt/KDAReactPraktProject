@@ -4,8 +4,6 @@ import {refreshToken} from "../../services/actions/workWithAuthInfo";
 
 export function ProtectedRoute({ children, ...rest }) {
     const history = useHistory();
-    console.log(getCookie('token'))
-    console.log(localStorage.getItem('refreshToken'))
     if (getCookie('token') === undefined) {
         if(localStorage.getItem('refreshToken') === null ) {
             return (
