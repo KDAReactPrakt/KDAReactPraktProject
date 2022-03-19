@@ -16,6 +16,8 @@ import ResetPwd from "../ResetPwd/ResetPwd";
 import Profile from "../Profile/Profile";
 import {ProtectedRoute} from "../ProtectedRoute/ProtectedRoute";
 import IngredientsId from "../IngredientsId/IngredientsId";
+import {ProtectedForAuthRoute} from "../ProtectedForAuthRoute/ProtectedForAuthRoute";
+import {ProtectedForAnyRoute} from "../ProtectedForAnyRoute/ProtectedForAnyRoute";
 
 
 function App() {
@@ -34,25 +36,25 @@ function App() {
             <Router>
                 <AppHeader/>
                 <Switch>
-                    <Route path="/login">
+                    <ProtectedForAuthRoute path="/login">
                         <Login/>
-                    </Route>
-                    <Route path="/register">
+                    </ProtectedForAuthRoute>
+                    <ProtectedForAuthRoute path="/register">
                         <Register/>
-                    </Route>
-                    <Route path="/forgot-password">
+                    </ProtectedForAuthRoute>
+                    <ProtectedForAuthRoute path="/forgot-password">
                         <ForgotPwd/>
-                    </Route>
-                    <Route path="/reset-password">
+                    </ProtectedForAuthRoute>
+                    <ProtectedForAnyRoute path="/reset-password">
                         <ResetPwd/>
-                    </Route>
+                    </ProtectedForAnyRoute>
                     <ProtectedRoute path="/profile">
                         <Profile/>
                     </ProtectedRoute>
-                    <ProtectedRoute path="/ingredients/:id">
+                    <Route path="/ingredients/:id">
                         <IngredientsId/>
-                    </ProtectedRoute>
-                    <ProtectedRoute path="/" exact={true}>
+                    </Route>
+                    <Route path="/" exact={true}>
                         <DndProvider  backend={HTML5Backend}>
                             <div className={style.Wrapper}>
                                 <section className={style.mainContentBlock}>
@@ -63,7 +65,7 @@ function App() {
                                 </section>
                             </div>
                         </DndProvider>
-                    </ProtectedRoute>
+                    </Route>
                     <Route>
                         <NotFound />
                     </Route>

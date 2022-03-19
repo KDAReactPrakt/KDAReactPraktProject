@@ -33,7 +33,7 @@ const Profile = () => {
                 dispatch(getUserInfo()).then(setEmail(user.email)).then(setName(user.name));
             }
         }
-    }, [user,dispatch, redirectToPath])
+    }, [])
 
 
     const save = () => {
