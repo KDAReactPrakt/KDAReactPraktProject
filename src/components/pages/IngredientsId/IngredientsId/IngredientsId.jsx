@@ -1,8 +1,8 @@
 import {useCallback, useEffect} from "react";
-import IngredientDetails from "../IngredientDetails/IngredientDetails";
+import IngredientDetails from "../../../IngredientDetails/IngredientDetails";
 import {useDispatch, useSelector} from "react-redux";
 import {useRouteMatch} from "react-router-dom";
-import {CLEAR_CURRENT_ITEM, GET_CURRENT_ITEM} from "../../services/actions/currentItem";
+import {CLEAR_CURRENT_ITEM, GET_CURRENT_ITEM} from "../../../../services/actions/currentItem";
 
 const IngredientsId = () => {
     const data = useSelector(state => state.ingredients.ingredientsData);

@@ -3,7 +3,7 @@ import style from './Login.module.css'
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, Redirect, useLocation} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {logIn} from "../../services/actions/workWithAuthInfo";
+import {logIn} from "../../../../services/actions/workWithAuthInfo";
 
 const Login = () => {
     const [email, setEmail] = React.useState('');

@@ -1,9 +1,9 @@
 import React, {useCallback, useEffect} from "react";
-import style from '../Login/Login.module.css'
+import style from '../../Login/Login/Login.module.css'
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useHistory} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {registerNewUser} from "../../services/actions/workWithAuthInfo";
+import {registerNewUser} from "../../../../services/actions/workWithAuthInfo";
 
 const Register = () => {
     const [email, setEmail] = React.useState('');

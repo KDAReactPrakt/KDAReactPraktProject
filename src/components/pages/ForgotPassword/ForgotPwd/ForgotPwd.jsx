@@ -1,19 +1,19 @@
 import React, {useCallback} from "react";
-import style from '../Login/Login.module.css'
+import style from '../../Login/Login/Login.module.css'
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, Redirect, useHistory} from "react-router-dom";
-import {resetPwd} from "../../functions/resetPwd";
+import {resetPwd} from "../../../../functions/resetPwd";
 
 const ForgotPwd = () => {
-    const [email, setEmail] = React.useState('');
+    const [emailToReset, setEmailToReset] = React.useState("");
     const [loading, setLoading] = React.useState(false);
-    const emailRef = React.useRef(null);
     const [needToRedirect, setNeedToRedirect] = React.useState(false)
     const history = useHistory();
 
     const next = useCallback(() => {
-        setLoading(true)
-        resetPwd(email)
+        setLoading(true);
+        debugger;
+        resetPwd({email:emailToReset})
             .then(res => res ? setNeedToRedirect(true) : alert("Попробуйте снова"))
             .then(() => setLoading(false));
     },[]);
@@ -36,17 +36,16 @@ const ForgotPwd = () => {
                     <Input
                         type={'email'}
                         placeholder={'E-mail'}
-                        onChange={e => setEmail(e.target.value)}
-                        value={email}
+                        onChange={e => setEmailToReset(e.target.value )}
+                        value={emailToReset}
                         name={'name'}
                         error={false}
-                        ref={emailRef}
                         errorText={'Ошибка'}
                         size={'default'}
                     />
                 </div>
                 <div>
-                    <Button type="primary" size="large" onClick={!loading ? next : ()=>{}}>
+                    <Button type="primary" size="large" onClick={!loading ? ()=>{next(emailToReset)} : ()=>{}}>
                         {loading ? 'Происходит запрос' : 'Восстановить'}
                     </Button>
                 </div>

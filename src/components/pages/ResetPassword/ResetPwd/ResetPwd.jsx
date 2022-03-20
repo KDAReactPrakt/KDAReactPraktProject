@@ -1,8 +1,8 @@
 import React, {useCallback} from "react";
-import style from '../Login/Login.module.css'
+import style from '../../Login/Login/Login.module.css'
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useHistory} from "react-router-dom";
-import {acceptResetPwd} from "../../functions/acceptResetPwd";
+import {acceptResetPwd} from "../../../../functions/acceptResetPwd";
 
 const ResetPwd = () => {
     const [code, setCode] = React.useState('');

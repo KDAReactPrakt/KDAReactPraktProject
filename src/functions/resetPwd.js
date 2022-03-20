@@ -4,7 +4,8 @@ import {checkResponse} from "./checkResponse";
 export const  resetPwd = async (email) => {
     return await fetch(PROFILE_URL + 'password-reset', {
         method: 'POST',
-        body: email
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(email)
     }).then(checkResponse)
         .then(res => res.message === "Reset email sent")
         .catch((err) => {

@@ -2,9 +2,9 @@ import React, {useCallback, useEffect} from "react";
 import style from './Profile.module.css'
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {NavLink, useHistory} from "react-router-dom";
-import {MENU_LINKS} from '../../data/data'
+import {MENU_LINKS} from '../../../../data/data'
 import {useDispatch, useSelector} from "react-redux";
-import {changeUserInfo, getUserInfo, logOut} from "../../services/actions/workWithAuthInfo";
+import {changeUserInfo, getUserInfo, logOut} from "../../../../services/actions/workWithAuthInfo";
 
 const Profile = () => {
     const [email, setEmail] = React.useState('');

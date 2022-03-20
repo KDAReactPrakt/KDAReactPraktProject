@@ -87,10 +87,11 @@ const BurgerConstructor = () => {
                 type: INCREASE_ITEM_COUNT,
                 id : item._id
             })
-            item.uid = uuidv4();
+            const uid = uuidv4();
             dispatch({
                 type: SET_ITEM,
-                data: item
+                data: item,
+                uid: uid
             });
         }
     }
