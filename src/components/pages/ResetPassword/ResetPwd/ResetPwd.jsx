@@ -23,7 +23,7 @@ const ResetPwd = () => {
         [history]
     );
 
-    const reset = useCallback(() => {
+    const reset = useCallback((pwd, code) => {
         setLoading(true)
         acceptResetPwd(pwd, code )
             .then(res => res ? redirectToPath('/login') : alert("Попробуйте снова"))
@@ -66,7 +66,7 @@ const ResetPwd = () => {
                 />
             </div>
             <div>
-                <Button type="primary" size="large" onClick={!loading ? reset : ()=>{}}>
+                <Button type="primary" size="large" onClick={!loading ? () => reset(pwd, code) : () => {}}>
                     {loading ? 'Происходит запрос' : 'Восстановить'}
                 </Button>
             </div>
