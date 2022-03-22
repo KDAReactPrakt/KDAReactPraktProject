@@ -157,7 +157,7 @@ export const logOut = () => {
 
 //Необходим для обновления пользовательского токена в случае если старый истек
 export const refreshToken = async () => {
-    await makeAuthRequest({ token: localStorage.getItem('refreshToken') }, 'auth/token')
+    await makeRequest({ token: localStorage.getItem('refreshToken') }, 'auth/token')
         .then(checkResponse)
         .then(res => {
             makeAuthToken(res);

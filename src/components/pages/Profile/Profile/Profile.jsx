@@ -4,13 +4,16 @@ import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components"
 import {NavLink, useHistory} from "react-router-dom";
 import {MENU_LINKS} from '../../../../data/data'
 import {useDispatch, useSelector} from "react-redux";
-import {changeUserInfo, getUserInfo, logOut} from "../../../../services/actions/workWithAuthInfo";
+import {changeUserInfo, getUserInfo, logOut, refreshToken} from "../../../../services/actions/workWithAuthInfo";
+import {getCookie} from "../../../../functions/cookies";
 
 const Profile = () => {
+    const user = useSelector(store => store.profile.user);
     const [email, setEmail] = React.useState('');
     const [pwd, setPwd] = React.useState('');
     const [name, setName] = React.useState('');
-    const user = useSelector(store => store.profile.user)
+    const [isLoading, setIsLoading] = React.useState(true);
+    const [isDefault, setIsDefault] = React.useState(true)
     const emailRef = React.useRef(null);
     const pwdRef = React.useRef(null);
     const nameRef = React.useRef(null);
@@ -30,25 +33,45 @@ const Profile = () => {
         } else {
             // debugger;
             if (user !== {}) {
-                dispatch(getUserInfo()).then(setEmail(user.email)).then(setName(user.name));
+                if (getCookie('token') === undefined) {
+                    refreshToken().then(()=> dispatch(getUserInfo()).then(setIsLoading(false))).catch(e => console.log(e));
+                } else {
+                    dispatch(getUserInfo()).then(setIsLoading(false))
+                }
             }
         }
     }, [])
 
+    useEffect(()=>{
+        if(user!==undefined) {
+            setEmail(user.email)
+            setName(user.name)
+        }
+    }, [user])
 
-    const save = () => {
+
+    const save = useCallback(() => {
         let form = {
             email: email,
             name: name
         }
         dispatch(changeUserInfo(form))
-    }
+    },[])
+
+    const cancel = useCallback( () => {
+        setEmail(user.email);
+        setName(user.name);
+        dispatch(getUserInfo()).then(setIsLoading(false))
+        setIsDefault(true)
+    },[])
 
     const onClick = (e) => {
         e.target.outerText === 'Выход' && dispatch(logOut())
     }
 
-    return (
+    return isLoading ? (
+        <>Загрузка данных</>
+    ) : (
         <div className={style.mainBlock}>
             <div className={style.menu}>
                 {MENU_LINKS.map((elem,index) => (
@@ -71,7 +94,10 @@ const Profile = () => {
                     <Input
                         type={'text'}
                         placeholder={'Имя'}
-                        onChange={e => setName(e.target.value)}
+                        onChange={e => {
+                            setName(e.target.value);
+                            setIsDefault(false)
+                        }}
                         icon={'EditIcon'}
                         value={name || ''}
                         name={'name'}
@@ -85,7 +111,10 @@ const Profile = () => {
                     <Input
                         type={'email'}
                         placeholder={'E-mail'}
-                        onChange={e => setEmail(e.target.value)}
+                        onChange={e => {
+                            setEmail(e.target.value);
+                            setIsDefault(false)
+                        }}
                         icon={'EditIcon'}
                         value={email || ''}
                         name={'name'}
@@ -99,7 +128,10 @@ const Profile = () => {
                     <Input
                         type={'password'}
                         placeholder={'Пароль'}
-                        onChange={e => setPwd(e.target.value)}
+                        onChange={e => {
+                            setPwd(e.target.value);
+                            setIsDefault(false)
+                        }}
                         icon={'EditIcon'}
                         value={pwd || ''}
                         name={'name'}
@@ -114,6 +146,13 @@ const Profile = () => {
                         Сохранить
                     </Button>
                 </div>
+                {!isDefault && (
+                    <div className={style.button}>
+                        <Button type="primary" size="large" onClick={cancel}>
+                            Отменить
+                        </Button>
+                    </div>
+                )}
             </div>
         </div>
     )

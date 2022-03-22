@@ -10,9 +10,8 @@ const ForgotPwd = () => {
     const [needToRedirect, setNeedToRedirect] = React.useState(false)
     const history = useHistory();
 
-    const next = useCallback(() => {
+    const next = useCallback((emailToReset) => {
         setLoading(true);
-        debugger;
         resetPwd({email:emailToReset})
             .then(res => res ? setNeedToRedirect(true) : alert("Попробуйте снова"))
             .then(() => setLoading(false));
