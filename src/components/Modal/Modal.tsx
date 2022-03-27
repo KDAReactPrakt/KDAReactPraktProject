@@ -1,4 +1,4 @@
-import React, {FC, ReactChildren} from "react";
+import React, {FC} from "react";
 import * as ReactDOM from "react-dom";
 import style from './Modal.module.css'
 import {CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components";
@@ -6,13 +6,13 @@ import ModalOverlay from "../ModalOverlay/ModalOverlay";
 
 const modalRoot: HTMLElement = document.getElementById("react-modals")!;
 
-interface IProps {
-    title: string;
+type TProps = {
+    title?: string;
     close: () => void;
 }
 
-const Modal:FC<IProps> = (props, children:ReactChildren) => {
-    const {title, close} = props;
+const Modal:FC<TProps> = (props) => {
+    const {title, close, children} = props;
     const escFunction = React.useCallback((event) => {
         if(event.key === 'Escape') {
             close();

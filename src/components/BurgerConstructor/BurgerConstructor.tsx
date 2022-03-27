@@ -179,7 +179,7 @@ const BurgerConstructor = () => {
     ) : (
         <div>
             {orderNumber !== 0 && loadingComplete && (
-                <Modal title={""} close={closeModal}>
+                <Modal close={closeModal}>
                     <OrderDetails number={orderNumber}/>
                 </Modal>
             )}
