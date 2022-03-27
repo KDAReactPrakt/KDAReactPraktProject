@@ -4,19 +4,17 @@ import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components"
 import {Link, Redirect, useLocation} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {logIn} from "../../../../services/actions/workWithAuthInfo";
+import {ILocation} from "../../../../types/location";
 
 const Login = () => {
-    const [email, setEmail] = React.useState('');
-    const [pwd, setPwd] = React.useState('');
-    const [pwdStatus,setPwdStatus] = React.useState(true);
-    const emailRef = React.useRef(null);
-    const pwdRef = React.useRef(null);
-    const needToRedirect = useSelector(store => store.profile.loginInfoSuccess)
+    const [email, setEmail] = React.useState<string>('');
+    const [pwd, setPwd] = React.useState<string>('');
+    const [pwdStatus,setPwdStatus] = React.useState<boolean>(true);
+    const needToRedirect = useSelector((store: any) => store.profile.loginInfoSuccess)
     const onPwdClick = () => {
-        setTimeout(() => pwdRef.current.focus(), 0)
         setPwdStatus(!pwdStatus);
     }
-    const location = useLocation();
+    const location = useLocation<ILocation>();
     const refer = location.state && location.state.from;
     const dispatch = useDispatch();
     const enter = () => {
@@ -44,7 +42,6 @@ const Login = () => {
                         value={email}
                         name={'name'}
                         error={false}
-                        ref={emailRef}
                         errorText={'Ошибка'}
                         size={'default'}
                     />
@@ -58,7 +55,6 @@ const Login = () => {
                         value={pwd}
                         name={'name'}
                         error={false}
-                        ref={pwdRef}
                         onIconClick={onPwdClick}
                         errorText={'Ошибка'}
                         size={'default'}

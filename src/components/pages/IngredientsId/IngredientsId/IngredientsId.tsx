@@ -3,14 +3,20 @@ import IngredientDetails from "../../../IngredientDetails/IngredientDetails";
 import {useDispatch, useSelector} from "react-redux";
 import {useRouteMatch} from "react-router-dom";
 import {CLEAR_CURRENT_ITEM, GET_CURRENT_ITEM} from "../../../../services/actions/currentItem";
+import {TCallbackVV} from "../../../../types/callback";
+import {IIngridient} from "../../../../types/Ingredient";
+
+interface IPath {
+        id?: string
+}
 
 const IngredientsId = () => {
-    const data = useSelector(state => state.ingredients.ingredientsData);
-    const id = useRouteMatch().params.id;
+    const data = useSelector((state: any) => state.ingredients.ingredientsData);
+    const id: IPath = useRouteMatch().params
     const dispatch = useDispatch();
 
-    const setCurrentItem = useCallback(() => {
-        const index = data.findIndex((elem => elem._id === id))
+    const setCurrentItem = useCallback<TCallbackVV>(() => {
+        const index = data.findIndex(((elem:IIngridient) => elem._id === id.id))
         dispatch({
             type: GET_CURRENT_ITEM,
             data: data[index]

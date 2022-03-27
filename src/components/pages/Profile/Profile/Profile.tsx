@@ -6,18 +6,16 @@ import {MENU_LINKS} from '../../../../data/data'
 import {useDispatch, useSelector} from "react-redux";
 import {changeUserInfo, getUserInfo, logOut, refreshToken} from "../../../../services/actions/workWithAuthInfo";
 import {getCookie} from "../../../../functions/cookies";
+import {TCallbackVV} from "../../../../types/callback";
 
 const Profile = () => {
-    const user = useSelector(store => store.profile.user);
-    const [email, setEmail] = React.useState('');
-    const [pwd, setPwd] = React.useState('');
-    const [name, setName] = React.useState('');
-    const [isLoading, setIsLoading] = React.useState(true);
-    const [isDefault, setIsDefault] = React.useState(true)
-    const emailRef = React.useRef(null);
-    const pwdRef = React.useRef(null);
-    const nameRef = React.useRef(null);
-    const dispatch = useDispatch();
+    const user = useSelector((store:any) => store.profile.user);
+    const [email, setEmail] = React.useState<string>('');
+    const [pwd, setPwd] = React.useState<string>('');
+    const [name, setName] = React.useState<string>('');
+    const [isLoading, setIsLoading] = React.useState<boolean>(true);
+    const [isDefault, setIsDefault] = React.useState<boolean>(true)
+    const dispatch:any = useDispatch();
 
     const history = useHistory();
     const redirectToPath = useCallback(
@@ -34,7 +32,7 @@ const Profile = () => {
             // debugger;
             if (user !== {}) {
                 if (getCookie('token') === undefined) {
-                    refreshToken().then(()=> dispatch(getUserInfo()).then(setIsLoading(false))).catch(e => console.log(e));
+                    refreshToken().then(()=> dispatch(getUserInfo()).then(() => setIsLoading(false))).catch(e => console.log(e));
                 } else {
                     dispatch(getUserInfo()).then(setIsLoading(false))
                 }
@@ -50,23 +48,25 @@ const Profile = () => {
     }, [user])
 
 
-    const save = useCallback(() => {
+    const save = useCallback<TCallbackVV>(() => {
         let form = {
             email: email,
             name: name
         }
         dispatch(changeUserInfo(form))
-    },[])
+    },[email, name])
 
-    const cancel = useCallback( () => {
+    const cancel = useCallback<TCallbackVV>( () => {
         setEmail(user.email);
         setName(user.name);
         dispatch(getUserInfo()).then(setIsLoading(false))
         setIsDefault(true)
-    },[])
+    },[isDefault])
 
-    const onClick = (e) => {
-        e.target.outerText === 'Выход' && dispatch(logOut())
+    const onClick = (e: React.MouseEvent) => {
+        const text: any = e;
+        console.log(text.target.outerText)
+        text.target.outerText === 'Выход' && dispatch(logOut())
     }
 
     return isLoading ? (
@@ -76,7 +76,7 @@ const Profile = () => {
             <div className={style.menu}>
                 {MENU_LINKS.map((elem,index) => (
                     <div className={style.menuItem} key={index}>
-                        <NavLink to={elem.link} className={style.menuItemLink} onClick={e => onClick(e) } activeClassName={style.menuItemLinkActive} exact={true}>
+                        <NavLink to={elem.link} className={style.menuItemLink} onClick={(e) => onClick(e) } activeClassName={style.menuItemLinkActive} exact={true}>
                             <p className="text text_type_main-medium">
                                 {elem.name}
                             </p>
@@ -102,7 +102,6 @@ const Profile = () => {
                         value={name || ''}
                         name={'name'}
                         error={false}
-                        ref={nameRef}
                         errorText={'Ошибка'}
                         size={'default'}
                     />
@@ -119,7 +118,6 @@ const Profile = () => {
                         value={email || ''}
                         name={'name'}
                         error={false}
-                        ref={emailRef}
                         errorText={'Ошибка'}
                         size={'default'}
                     />
@@ -136,7 +134,6 @@ const Profile = () => {
                         value={pwd || ''}
                         name={'name'}
                         error={false}
-                        ref={pwdRef}
                         errorText={'Ошибка'}
                         size={'default'}
                     />

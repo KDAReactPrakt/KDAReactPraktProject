@@ -7,18 +7,19 @@ import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import {useDispatch, useSelector} from "react-redux";
 import {CLEAR_CURRENT_ITEM, GET_CURRENT_ITEM} from "../../services/actions/currentItem";
 import {SET_TAB} from "../../services/actions/tabs";
+import {IIngridient, TChosenIngredients} from "../../types/Ingredient";
 
 const AddTab = () => {
-    const current = useSelector(state => state.tab.activeTab)
+    const current = useSelector((state: any) => state.tab.activeTab)
     return (
         <div style={{ display: 'flex' }}>
-            <Tab value="one" active={current === 'one'}>
+            <Tab value="one" active={current === 'one'} onClick={()=>{}}>
                 Булки
             </Tab>
-            <Tab value="two" active={current === 'two'}>
+            <Tab value="two" active={current === 'two'} onClick={()=>{}}>
                 Соусы
             </Tab>
-            <Tab value="three" active={current === 'three'}>
+            <Tab value="three" active={current === 'three'} onClick={()=>{}}>
                 Начинки
             </Tab>
         </div>
@@ -26,14 +27,14 @@ const AddTab = () => {
 }
 
 const BurgerIngredients = () => {
-    const activeModal = useSelector(state => state.currentItem.activeModal)
-    const [height, setHeight] = useState(null);
-    const data = useSelector( state => state.ingredients.ingredientsData)
+    const activeModal = useSelector((state: any) => state.currentItem.activeModal)
+    const [height, setHeight] = useState<number>(0);
+    const data = useSelector( (state: any) => state.ingredients.ingredientsData)
     const dispatch = useDispatch();
-    const ref = useRef(null);
-    const refBun = useRef(null);
-    const refSauce = useRef(null);
-    const refMain = useRef(null);
+    const ref = useRef<HTMLDivElement | any>(null);
+    const refBun = useRef<HTMLDivElement | any>(null);
+    const refSauce = useRef<HTMLDivElement | any>(null);
+    const refMain = useRef<HTMLDivElement | any>(null);
 
     const tabPosition = {
         bun: 0,
@@ -68,8 +69,8 @@ const BurgerIngredients = () => {
         }
     }
 
-    const setActiveIngredientId = (id) => {
-        window.history.pushState(null,null,'/ingredients/' + findElement(id)._id);
+    const setActiveIngredientId = (id:string) => {
+        window.history.pushState(null,'','/ingredients/' + findElement(id)._id);
         dispatch({
             type: GET_CURRENT_ITEM,
             data: findElement(id)
@@ -77,14 +78,14 @@ const BurgerIngredients = () => {
     }
 
     const closeModal = () => {
-        window.history.pushState(null,null,'/');
+        window.history.pushState(null,'','/');
         dispatch({
             type: CLEAR_CURRENT_ITEM
         })
     }
 
-    const findElement = (id) => {
-        return data.find( item => item._id === id)
+    const findElement = (id:string) => {
+        return data.find( (item:TChosenIngredients) => item._id === id)
     }
 
     return (
@@ -108,27 +109,27 @@ const BurgerIngredients = () => {
                         Булки
                     </p>
                 </div>
-                {data.map((element) => (
+                {data.map((element:IIngridient) => (
                     element.type === 'bun' && (
-                        <ItemCard key={element._id} item={element} class={style.ingredientsItem} onClick={setActiveIngredientId}/>)
+                        <ItemCard key={element._id} item={element} classProps={style.ingredientsItem} onClick={setActiveIngredientId}/>)
                 ))}
                 <div className={style.ingredientsHeader} ref={refSauce}>
                     <p className="text text_type_main-medium">
                         Соусы
                     </p>
                 </div>
-                {data.map((element, index) => (
+                {data.map((element:IIngridient, index:number) => (
                     element.type === 'sauce' && (
-                        <ItemCard key={index} item={element} class={style.ingredientsItem} onClick={setActiveIngredientId}/>)
+                        <ItemCard key={index} item={element} classProps={style.ingredientsItem} onClick={setActiveIngredientId}/>)
                 ))}
                 <div className={style.ingredientsHeader} ref={refMain}>
                     <p className="text text_type_main-medium">
                         Начинки
                     </p>
                 </div>
-                {data.map((element, index) => (
+                {data.map((element:IIngridient, index:number) => (
                     element.type === 'main' && (
-                        <ItemCard key={index} item={element} class={style.ingredientsItem} onClick={setActiveIngredientId}/>)
+                        <ItemCard key={index} item={element} classProps={style.ingredientsItem} onClick={setActiveIngredientId}/>)
                 ))}
             </div>
         </div>

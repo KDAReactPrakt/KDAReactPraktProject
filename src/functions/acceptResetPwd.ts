@@ -1,13 +1,16 @@
 import {PROFILE_URL} from "../data/data";
 import {checkResponse} from "./checkResponse";
 
-export const  resetPwd = async (email) => {
-    return await fetch(PROFILE_URL + 'password-reset', {
+export const  acceptResetPwd = async (pwd:string, token:string) => {
+    return await fetch(PROFILE_URL + 'password-reset/reset', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(email)
+        body: JSON.stringify({
+            password: pwd,
+            token: token
+        })
     }).then(checkResponse)
-        .then(res => res.message === "Reset email sent")
+        .then((res) => res.message === "Password successfully reset")
         .catch((err) => {
             alert(err ? err : "Произошла Непредвиденная ошибка");
             return false;

@@ -7,8 +7,8 @@ import {BurgerIcon, ListIcon} from "@ya.praktikum/react-developer-burger-ui-comp
 
 const AppHeader = () =>{
     const {pathname} = useLocation();
-    const isMain = pathname === '/';
-    const isOrders = pathname === '/orders';
+    const isMain: boolean = pathname === '/';
+    const isOrders: boolean = pathname === '/orders';
         return (
         <section className={style.header}>
             <section className={style.wrapper}>

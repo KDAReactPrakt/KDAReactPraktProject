@@ -4,23 +4,20 @@ import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components"
 import {Link, useHistory} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {registerNewUser} from "../../../../services/actions/workWithAuthInfo";
+import {TCallbackSV, TCallbackVV} from "../../../../types/callback";
 
 const Register = () => {
-    const [email, setEmail] = React.useState('');
-    const [pwd, setPwd] = React.useState('');
-    const [name, setName] = React.useState('');
-    const [pwdStatus,setPwdStatus] = React.useState(true);
-    const emailRef = React.useRef(null);
-    const pwdRef = React.useRef(null);
-    const nameRef = React.useRef(null);
+    const [email, setEmail] = React.useState<string>('');
+    const [pwd, setPwd] = React.useState<string>('');
+    const [name, setName] = React.useState<string>('');
+    const [pwdStatus,setPwdStatus] = React.useState<boolean>(true);
     const dispatch = useDispatch();
-    const needToRedirect = useSelector(store => store.profile.registerSuccess)
+    const needToRedirect = useSelector((store: any) => store.profile.registerSuccess)
     const onPwdClick = () => {
-        setTimeout(() => pwdRef.current.focus(), 0)
         setPwdStatus(!pwdStatus);
     }
     const history = useHistory();
-    const redirectToPath = useCallback(
+    const redirectToPath = useCallback<TCallbackSV>(
         (path) => {
             history.replace({pathname: path});
         },
@@ -32,15 +29,16 @@ const Register = () => {
     }, [needToRedirect])
 
 
-    const register = () => {
+    const register = useCallback<TCallbackVV>(() => {
         let form = {
             email: email,
             password: pwd,
             name: name
         };
         dispatch(registerNewUser(form));
-        alert('ok');
-    }
+        alert('Регистрация прошла успешно!');
+    },[email, pwd, name])
+
     return (
         <div className={style.mainBlock}>
             <h1>
@@ -56,7 +54,6 @@ const Register = () => {
                     value={name}
                     name={'name'}
                     error={false}
-                    ref={nameRef}
                     errorText={'Ошибка'}
                     size={'default'}
                 />
@@ -69,7 +66,6 @@ const Register = () => {
                     value={email}
                     name={'name'}
                     error={false}
-                    ref={emailRef}
                     errorText={'Ошибка'}
                     size={'default'}
                 />
@@ -83,7 +79,6 @@ const Register = () => {
                     value={pwd}
                     name={'name'}
                     error={false}
-                    ref={pwdRef}
                     onIconClick={onPwdClick}
                     errorText={'Ошибка'}
                     size={'default'}

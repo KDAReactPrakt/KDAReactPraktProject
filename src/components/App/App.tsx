@@ -27,7 +27,7 @@ function App() {
         dispatch(getIngredientData());
     },[dispatch])
 
-    const loadingComplete = useSelector(state => {
+    const loadingComplete = useSelector((state: any) => {
         return state.ingredients.ingredientsSuccess;
     })
 

@@ -3,7 +3,7 @@ import style from './IngredientDetails.module.css'
 import {useSelector} from "react-redux";
 
 const IngredientDetails = () => {
-    const data = useSelector( state => state.currentItem.currentItem)
+    const data = useSelector( (state: any) => state.currentItem.currentItem)
     return (
         <div className={style.infoBlock}>
             <div className={style.image}>

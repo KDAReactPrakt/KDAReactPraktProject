@@ -1,7 +1,8 @@
-import {Redirect, Route} from 'react-router-dom';
+import {Redirect, Route, RouteProps} from 'react-router-dom';
 import {getCookie} from "../../functions/cookies";
+import {FC} from "react";
 
-export function ProtectedForAuthRoute({ children, ...rest }) {
+export const ProtectedForAuthRoute: FC<RouteProps> = ({ children, ...rest }) => {
     if (getCookie('token') !== undefined) {
         return (
             <Redirect to={{pathname:'/'}}/>

@@ -3,32 +3,32 @@ import style from '../../Login/Login/Login.module.css'
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useHistory} from "react-router-dom";
 import {acceptResetPwd} from "../../../../functions/acceptResetPwd";
+import {TCallbackSV, TCallbackVV} from "../../../../types/callback";
+
+type TCallbackResetPwd = (pwd:string, code:string) => void
 
 const ResetPwd = () => {
-    const [code, setCode] = React.useState('');
-    const [loading, setLoading] = React.useState(false);
-    const [pwd, setPwd] = React.useState('');
-    const [pwdStatus, setPwdStatus] = React.useState(true);
-    const codeRef = React.useRef(null);
-    const pwdRef = React.useRef(null);
-    const onPwdClick = () => {
-        setTimeout(() => pwdRef.current.focus(), 0)
+    const [code, setCode] = React.useState<string>('');
+    const [loading, setLoading] = React.useState<boolean>(false);
+    const [pwd, setPwd] = React.useState<string>('');
+    const [pwdStatus, setPwdStatus] = React.useState<boolean>(true);
+    const onPwdClick = useCallback<TCallbackVV>(() => {
         setPwdStatus(!pwdStatus);
-    }
+    },[pwdStatus])
     const history = useHistory();
-    const redirectToPath = useCallback(
+    const redirectToPath = useCallback<TCallbackSV>(
         (path) => {
             history.replace({pathname: path});
         },
         [history]
     );
 
-    const reset = useCallback((pwd, code) => {
+    const reset = useCallback<TCallbackResetPwd>((pwd, code) => {
         setLoading(true)
         acceptResetPwd(pwd, code )
             .then(res => res ? redirectToPath('/login') : alert("Попробуйте снова"))
             .then(() => setLoading(false));
-    },[]);
+    },[pwd, code]);
 
     return (
         <div className={style.mainBlock}>
@@ -46,7 +46,6 @@ const ResetPwd = () => {
                     value={pwd}
                     name={'name'}
                     error={false}
-                    ref={pwdRef}
                     onIconClick={onPwdClick}
                     errorText={'Ошибка'}
                     size={'default'}
@@ -60,7 +59,6 @@ const ResetPwd = () => {
                     value={code}
                     name={'name'}
                     error={false}
-                    ref={codeRef}
                     errorText={'Ошибка'}
                     size={'default'}
                 />

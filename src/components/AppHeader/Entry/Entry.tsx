@@ -1,9 +1,13 @@
 import style from "./Entry.module.css"
 import {ProfileIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link} from "react-router-dom";
-import PropTypes from "prop-types";
+import {FC} from "react";
 
-const Entry = (path) => {
+interface IProps {
+    path: string
+}
+
+const Entry: FC<IProps> = (path) => {
     return (
         <Link className={path.path === '/profile' ? style.entry + ' ' + style.active : style.entry} to='/profile'>
             <ProfileIcon type={path.path ==='/profile' ? "primary" : "secondary"}/>
@@ -12,10 +16,6 @@ const Entry = (path) => {
             </p>
         </Link>
     );
-};
-
-Entry.propTypes = {
-    path: PropTypes.string.isRequired
 };
 
 export default Entry;
