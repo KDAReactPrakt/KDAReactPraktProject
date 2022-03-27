@@ -2,6 +2,8 @@
     display: flex;
     flex-direction: row;
     margin: 16px;
+    text-decoration: none;
+    color: rgb(132,132,168);
 }
 
 .entry > p {
@@ -11,4 +13,8 @@
 
 .entry:first-child {
     margin-left: 20px;
+}
+
+.active {
+    color: white;
 }

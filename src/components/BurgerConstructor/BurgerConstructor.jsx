@@ -18,14 +18,18 @@ import {
 import {CLEAR_COUNT, DECREASE_ITEM_COUNT, INCREASE_ITEM_COUNT} from "../../services/actions/ingredient";
 import ChosenItems from "./ChosenItems/ChosenItems";
 import { v4 as uuidv4 } from 'uuid';
+import {getCookie} from "../../functions/cookies";
+import {Redirect, useHistory} from "react-router-dom";
 
 
 const BurgerConstructor = () => {
+    const [needToRedirect, setNeedToRedirect] = React.useState(false);
     const bun = useSelector(state => state.constructorOrder.chosenBun);
     const chosenItems = useSelector(state => state.constructorOrder.chosenItems);
     const orderNumber = useSelector(state => state.orderNumber.orderNumber);
     const loadingComplete = useSelector(state => state.orderNumber.orderNumberSuccess);
     const dispatch = useDispatch();
+    const history = useHistory();
     const hoverPosition = useSelector(state => state.constructorOrder.hoverBoundingRect)
 
     const [{opacity}, dropTarget] = useDrop({
@@ -83,10 +87,11 @@ const BurgerConstructor = () => {
                 type: INCREASE_ITEM_COUNT,
                 id : item._id
             })
-            item.uid = uuidv4();
+            const uid = uuidv4();
             dispatch({
                 type: SET_ITEM,
-                data: item
+                data: item,
+                uid: uid
             });
         }
     }
@@ -140,10 +145,21 @@ const BurgerConstructor = () => {
     }
 
     const openModal = () => {
-        getOrderNumber();
+        if (getCookie('token') === undefined) {
+            setNeedToRedirect(true);
+        }else {
+            getOrderNumber();
+        }
     }
 
-    return (
+    return needToRedirect ? (
+        <Redirect to={{
+            // Маршрут, на который произойдёт переадресация
+            pathname: '/login',
+            // В from сохраним текущий маршрут
+            state: { from: history.location.pathname }
+        }}/>
+    ) : (
         <div>
             {orderNumber !== 0 && loadingComplete && (
                 <Modal close={closeModal}>

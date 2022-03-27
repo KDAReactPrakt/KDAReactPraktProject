@@ -18,7 +18,31 @@
     display: flex;
 }
 
+.menu a {
+    text-decoration: none;
+    color: rgb(132,132,168);
+}
+
+.active {
+    color: white;
+}
+
 .mainLogo {
     display: flex;
     margin-left: -150px;
+}
+
+.menuItem{
+    display: flex;
+    flex-direction: row;
+    color: rgb(132,132,168);
+}
+
+.menuItem > p {
+    margin-right: 20px;
+    margin-left: 8px;
+}
+
+.menuItem:first-child {
+    margin-left: 20px;
 }
