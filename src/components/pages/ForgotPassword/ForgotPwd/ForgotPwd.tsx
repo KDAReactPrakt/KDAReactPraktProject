@@ -3,14 +3,15 @@ import style from '../../Login/Login/Login.module.css'
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, Redirect, useHistory} from "react-router-dom";
 import {resetPwd} from "../../../../functions/resetPwd";
+import {TCallbackSV} from "../../../../types/callback";
 
 const ForgotPwd = () => {
-    const [emailToReset, setEmailToReset] = React.useState("");
-    const [loading, setLoading] = React.useState(false);
-    const [needToRedirect, setNeedToRedirect] = React.useState(false)
+    const [emailToReset, setEmailToReset] = React.useState<string>("");
+    const [loading, setLoading] = React.useState<boolean>(false);
+    const [needToRedirect, setNeedToRedirect] = React.useState<boolean>(false)
     const history = useHistory();
 
-    const next = useCallback((emailToReset) => {
+    const next = useCallback<TCallbackSV>((emailToReset) => {
         setLoading(true);
         resetPwd({email:emailToReset})
             .then(res => res ? setNeedToRedirect(true) : alert("Попробуйте снова"))

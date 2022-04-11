@@ -6,7 +6,7 @@ import OrderDetails from "../OrderDetails/OrderDetails";
 import {useDispatch, useSelector} from "react-redux";
 import {getOrderNumberAPI} from "../../services/actions/getOrderNumberAPI";
 import {CLEAR_ORDER_NUMBER} from "../../services/actions/orderNumber";
-import {useDrop} from "react-dnd";
+import {useDrop, XYCoord} from "react-dnd";
 import {
     CHANGE_POSITION, CLEAR_BASKET,
     DROP_HOVER_POSITION,
@@ -20,21 +20,37 @@ import ChosenItems from "./ChosenItems/ChosenItems";
 import { v4 as uuidv4 } from 'uuid';
 import {getCookie} from "../../functions/cookies";
 import {Redirect, useHistory} from "react-router-dom";
+import {IIngridient, TChosenIngredients} from "../../types/Ingredient";
+import {TCallbackVV} from "../../types/callback";
 
+interface IPosition {
+    chosenItemId:number;
+    ref: {
+        current: {
+            getBoundingClientRect: () => {
+                top: number
+        }
+        }
+    }
+}
+
+interface IResult {
+    ingredients: string[]
+}
 
 const BurgerConstructor = () => {
-    const [needToRedirect, setNeedToRedirect] = React.useState(false);
-    const bun = useSelector(state => state.constructorOrder.chosenBun);
-    const chosenItems = useSelector(state => state.constructorOrder.chosenItems);
-    const orderNumber = useSelector(state => state.orderNumber.orderNumber);
-    const loadingComplete = useSelector(state => state.orderNumber.orderNumberSuccess);
+    const [needToRedirect, setNeedToRedirect] = React.useState<boolean>(false);
+    const bun:IIngridient = useSelector((state: any) => state.constructorOrder.chosenBun);
+    const chosenItems = useSelector((state: any) => state.constructorOrder.chosenItems);
+    const orderNumber = useSelector((state: any) => state.orderNumber.orderNumber);
+    const loadingComplete = useSelector((state: any) => state.orderNumber.orderNumberSuccess);
     const dispatch = useDispatch();
     const history = useHistory();
-    const hoverPosition = useSelector(state => state.constructorOrder.hoverBoundingRect)
+    const hoverPosition = useSelector((state: any) => state.constructorOrder.hoverBoundingRect)
 
     const [{opacity}, dropTarget] = useDrop({
         accept: "item",
-        drop(item) {
+        drop(item:TChosenIngredients) {
             onDropHandler(item)
         },
         collect: monitor => ({
@@ -50,14 +66,14 @@ const BurgerConstructor = () => {
                 position: 0
             })
         },
-        hover(item, monitor) {
+        hover(item:IPosition, monitor) {
             if (hoverPosition === 0) {
                 dispatch({
                     type: SET_HOVER_POSITION,
                     position: item.ref.current.getBoundingClientRect().top
                 })
             }
-            const clientOffset = monitor.getClientOffset()
+            const clientOffset: XYCoord = monitor.getClientOffset()!;
             const hoverClientY = clientOffset.y - hoverPosition
             const changePosition = Math.floor(hoverClientY/80)
             if (changePosition!==0){
@@ -76,7 +92,7 @@ const BurgerConstructor = () => {
         }
     });
 
-    const onDropHandler = (item) => {
+    const onDropHandler = (item: TChosenIngredients) => {
         if (item.type === 'bun') {
             dispatch({
                 type: SET_BUN,
@@ -96,7 +112,7 @@ const BurgerConstructor = () => {
         }
     }
 
-    const dropItem = (itemId) => {
+    const dropItem = (itemId:string) => {
         dispatch({
             type: DECREASE_ITEM_COUNT,
             id: itemId
@@ -121,15 +137,16 @@ const BurgerConstructor = () => {
 
     const getSum = () => {
         const bunSum = bun.price === undefined ? 0 : bun.price*2;
-        const chosenItemsSum = chosenItems.length !== 0 ? chosenItems.reduce(function(sum, current) {
+        const chosenItemsSum = chosenItems.length !== 0 ? chosenItems.reduce(function(sum:number, current:TChosenIngredients) {
                 return current!== undefined ? sum + current.price : sum;
             },0) : 0
         return bunSum + chosenItemsSum;
     }
-    const sum = useMemo(() =>getSum(), [bun, chosenItems])
+
+    const sum = useMemo<TCallbackVV>(() =>getSum(), [bun, chosenItems])
 
     const getOrderNumber = () => {
-        let result = {
+        let result: IResult = {
             ingredients: []
         };
         if(bun._id !== undefined) {
@@ -138,7 +155,7 @@ const BurgerConstructor = () => {
             alert("Без булки сделать заказ нельзя!");
             return;
         }
-        chosenItems.map((item) => result.ingredients.push(item._id));
+        chosenItems.map((item:TChosenIngredients) => result.ingredients.push(item._id));
         result.ingredients.push(bun._id);
 
         dispatch(getOrderNumberAPI(result));
@@ -166,7 +183,7 @@ const BurgerConstructor = () => {
                     <OrderDetails number={orderNumber}/>
                 </Modal>
             )}
-            <div className={style.constructor} ref={dropTarget} style={{opacity}}>
+            <div className={style.constructorBlock} ref={dropTarget} style={{opacity}}>
                 {bun.name === undefined && chosenItems.length === 0 && (
                     <div>
                         <p className="text text_type_main-large">
@@ -187,7 +204,7 @@ const BurgerConstructor = () => {
                 )}
                 {chosenItems.length !== 0 && (
                     <div className={style.middleBlock} ref={dropTargetSort}>
-                        {chosenItems.map((item) => (
+                        {chosenItems.map((item: TChosenIngredients) => (
                             <ChosenItems  key={item.uid} item={item} dropItem={dropItem}/>
                         ))}
                     </div>

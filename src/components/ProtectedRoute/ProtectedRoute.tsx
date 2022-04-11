@@ -1,8 +1,9 @@
-import {Redirect, Route, useHistory} from 'react-router-dom';
+import {Redirect, Route, RouteProps, useHistory} from 'react-router-dom';
 import {getCookie} from "../../functions/cookies";
 import {refreshToken} from "../../services/actions/workWithAuthInfo";
+import {FC} from "react";
 
-export function ProtectedRoute({ children, ...rest }) {
+export const ProtectedRoute: FC<RouteProps> = ({ children, ...rest }) => {
     const history = useHistory();
     if (getCookie('token') === undefined) {
         if(localStorage.getItem('refreshToken') === null ) {
