@@ -1,9 +1,9 @@
 import React from "react";
 import style from './IngredientDetails.module.css'
-import {useSelector} from "react-redux";
+import {useSelector} from "../../types/hooks";
 
 const IngredientDetails = () => {
-    const data = useSelector( (state: any) => state.currentItem.currentItem)
+    const data = useSelector( (state:any) => state.currentItem.currentItem)
     return (
         <div className={style.infoBlock}>
             <div className={style.image}>

@@ -18,6 +18,8 @@ import {ProtectedRoute} from "../ProtectedRoute/ProtectedRoute";
 import IngredientsId from "../pages/IngredientsId/IngredientsId/IngredientsId";
 import {ProtectedForAuthRoute} from "../ProtectedForAuthRoute/ProtectedForAuthRoute";
 import {ProtectedForAnyRoute} from "../ProtectedForAnyRoute/ProtectedForAnyRoute";
+import {Feed} from "../pages/Feed/Feed";
+import {FeedId} from "../pages/FeedId/FeedId";
 
 
 function App() {
@@ -48,11 +50,23 @@ function App() {
                     <ProtectedForAnyRoute path="/reset-password">
                         <ResetPwd/>
                     </ProtectedForAnyRoute>
-                    <ProtectedRoute path="/profile">
+                    <ProtectedRoute path="/profile" exact={true}>
                         <Profile/>
+                    </ProtectedRoute>
+                    <ProtectedRoute path="/profile/orders" exact={true}>
+                        <Profile/>
+                    </ProtectedRoute>
+                    <ProtectedRoute path="/profile/order/:id" exact={true}>
+                        <FeedId/>
                     </ProtectedRoute>
                     <Route path="/ingredients/:id">
                         <IngredientsId/>
+                    </Route>
+                    <Route path="/feed/:id">
+                        <FeedId/>
+                    </Route>
+                    <Route path="/feed/">
+                        <Feed/>
                     </Route>
                     <Route path="/" exact={true}>
                         <DndProvider  backend={HTML5Backend}>

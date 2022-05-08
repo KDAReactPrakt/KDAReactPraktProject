@@ -3,9 +3,9 @@ import {Button, ConstructorElement, CurrencyIcon} from "@ya.praktikum/react-deve
 import style from './BurgerConstructor.module.css'
 import Modal from "../Modal/Modal";
 import OrderDetails from "../OrderDetails/OrderDetails";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelector} from "../../types/hooks";
 import {getOrderNumberAPI} from "../../services/actions/getOrderNumberAPI";
-import {CLEAR_ORDER_NUMBER} from "../../services/actions/orderNumber";
+import {CLEAR_ORDER_NUMBER} from "../../services/constants/orderNumber";
 import {useDrop, XYCoord} from "react-dnd";
 import {
     CHANGE_POSITION, CLEAR_BASKET,
@@ -14,8 +14,8 @@ import {
     SET_BUN,
     SET_HOVER_POSITION,
     SET_ITEM
-} from "../../services/actions/constructor";
-import {CLEAR_COUNT, DECREASE_ITEM_COUNT, INCREASE_ITEM_COUNT} from "../../services/actions/ingredient";
+} from "../../services/constants/constructor";
+import {CLEAR_COUNT, DECREASE_ITEM_COUNT, INCREASE_ITEM_COUNT} from "../../services/constants/ingredient";
 import ChosenItems from "./ChosenItems/ChosenItems";
 import { v4 as uuidv4 } from 'uuid';
 import {getCookie} from "../../functions/cookies";
@@ -34,7 +34,7 @@ interface IPosition {
     }
 }
 
-interface IResult {
+export interface IResult {
     ingredients: string[]
 }
 

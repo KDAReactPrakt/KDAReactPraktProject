@@ -4,9 +4,9 @@ import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import ItemCard from "./ItemCard/ItemCard";
 import Modal from "../Modal/Modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
-import {useDispatch, useSelector} from "react-redux";
-import {CLEAR_CURRENT_ITEM, GET_CURRENT_ITEM} from "../../services/actions/currentItem";
-import {SET_TAB} from "../../services/actions/tabs";
+import {useDispatch, useSelector} from "../../types/hooks";
+import {CLEAR_CURRENT_ITEM, GET_CURRENT_ITEM} from "../../services/constants/currentItem";
+import {SET_TAB} from "../../services/constants/tabs";
 import {IIngridient, TChosenIngredients} from "../../types/Ingredient";
 
 const AddTab = () => {

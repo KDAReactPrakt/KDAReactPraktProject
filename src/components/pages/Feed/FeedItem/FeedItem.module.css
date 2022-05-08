@@ -1,0 +1,30 @@
+.central_block {
+    width:100%;
+    display:flex;
+    flex-direction:row;
+    justify-content:space-between;
+    margin-top: 24px;
+}
+.main_item_block :first-child {
+    margin-top: 0px;
+}
+h2 {
+    text-align: left;
+}
+.main_item_block {
+    margin-top: 16px;
+    padding: 24px;
+    width: 584px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-decoration: none;
+    color: white;
+    /* interface/modal-bg */
+
+    background: #1C1C21;
+    /* /card/base */
+
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 0px 2px rgba(0, 0, 0, 0.06), 0px 0px 1px rgba(0, 0, 0, 0.04);
+    border-radius: 40px;
+}

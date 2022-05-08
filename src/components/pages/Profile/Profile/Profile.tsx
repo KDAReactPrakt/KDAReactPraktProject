@@ -3,13 +3,14 @@ import style from './Profile.module.css'
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {NavLink, useHistory} from "react-router-dom";
 import {MENU_LINKS} from '../../../../data/data'
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector, useDispatch} from '../../../../types/hooks'
 import {changeUserInfo, getUserInfo, logOut, refreshToken} from "../../../../services/actions/workWithAuthInfo";
 import {getCookie} from "../../../../functions/cookies";
 import {TCallbackVV} from "../../../../types/callback";
+import {Orders} from "../../Orders/Orders";
 
 const Profile = () => {
-    const user = useSelector((store:any) => store.profile.user);
+    const user = useSelector((store) => store.profile.user);
     const [email, setEmail] = React.useState<string>('');
     const [pwd, setPwd] = React.useState<string>('');
     const [name, setName] = React.useState<string>('');
@@ -24,7 +25,7 @@ const Profile = () => {
         },
         [history]
     );
-
+    const isOrderHistory = history.location.pathname === '/profile/orders'
     useEffect(() => {
         if(!localStorage.getItem('refreshToken')){
             redirectToPath('/login');
@@ -42,8 +43,8 @@ const Profile = () => {
 
     useEffect(()=>{
         if(user!==undefined) {
-            setEmail(user.email)
-            setName(user.name)
+            setEmail(user.email || '')
+            setName(user.name || '')
         }
     }, [user])
 
@@ -57,15 +58,14 @@ const Profile = () => {
     },[email, name])
 
     const cancel = useCallback<TCallbackVV>( () => {
-        setEmail(user.email);
-        setName(user.name);
+        setEmail(user.email || '');
+        setName(user.name || '');
         dispatch(getUserInfo()).then(setIsLoading(false))
         setIsDefault(true)
     },[isDefault])
 
     const onClick = (e: React.MouseEvent) => {
         const text: any = e;
-        console.log(text.target.outerText)
         text.target.outerText === 'Выход' && dispatch(logOut())
     }
 
@@ -89,68 +89,72 @@ const Profile = () => {
                     </p>
                 </div>
             </div>
-            <div className={style.data}>
-                <div className={style.dataItem}>
-                    <Input
-                        type={'text'}
-                        placeholder={'Имя'}
-                        onChange={e => {
-                            setName(e.target.value);
-                            setIsDefault(false)
-                        }}
-                        icon={'EditIcon'}
-                        value={name || ''}
-                        name={'name'}
-                        error={false}
-                        errorText={'Ошибка'}
-                        size={'default'}
-                    />
-                </div>
-                <div className={style.dataItem}>
-                    <Input
-                        type={'email'}
-                        placeholder={'E-mail'}
-                        onChange={e => {
-                            setEmail(e.target.value);
-                            setIsDefault(false)
-                        }}
-                        icon={'EditIcon'}
-                        value={email || ''}
-                        name={'name'}
-                        error={false}
-                        errorText={'Ошибка'}
-                        size={'default'}
-                    />
-                </div>
-                <div className={style.dataItem}>
-                    <Input
-                        type={'password'}
-                        placeholder={'Пароль'}
-                        onChange={e => {
-                            setPwd(e.target.value);
-                            setIsDefault(false)
-                        }}
-                        icon={'EditIcon'}
-                        value={pwd || ''}
-                        name={'name'}
-                        error={false}
-                        errorText={'Ошибка'}
-                        size={'default'}
-                    />
-                </div>
-                <div className={style.button}>
-                    <Button type="primary" size="large" onClick={save}>
-                        Сохранить
-                    </Button>
-                </div>
-                {!isDefault && (
+            {isOrderHistory ? (
+                <Orders/>
+            ) : (
+                <div className={style.data}>
+                    <div className={style.dataItem}>
+                        <Input
+                            type={'text'}
+                            placeholder={'Имя'}
+                            onChange={e => {
+                                setName(e.target.value);
+                                setIsDefault(false)
+                            }}
+                            icon={'EditIcon'}
+                            value={name || ''}
+                            name={'name'}
+                            error={false}
+                            errorText={'Ошибка'}
+                            size={'default'}
+                        />
+                    </div>
+                    <div className={style.dataItem}>
+                        <Input
+                            type={'email'}
+                            placeholder={'E-mail'}
+                            onChange={e => {
+                                setEmail(e.target.value);
+                                setIsDefault(false)
+                            }}
+                            icon={'EditIcon'}
+                            value={email || ''}
+                            name={'name'}
+                            error={false}
+                            errorText={'Ошибка'}
+                            size={'default'}
+                        />
+                    </div>
+                    <div className={style.dataItem}>
+                        <Input
+                            type={'password'}
+                            placeholder={'Пароль'}
+                            onChange={e => {
+                                setPwd(e.target.value);
+                                setIsDefault(false)
+                            }}
+                            icon={'EditIcon'}
+                            value={pwd || ''}
+                            name={'name'}
+                            error={false}
+                            errorText={'Ошибка'}
+                            size={'default'}
+                        />
+                    </div>
                     <div className={style.button}>
-                        <Button type="primary" size="large" onClick={cancel}>
-                            Отменить
+                        <Button type="primary" size="large" onClick={save}>
+                            Сохранить
                         </Button>
                     </div>
-                )}
-            </div>
+                    {!isDefault && (
+                        <div className={style.button}>
+                            <Button type="primary" size="large" onClick={cancel}>
+                                Отменить
+                            </Button>
+                        </div>
+                    )}
+                </div>
+            )}
         </div>
     )
 }

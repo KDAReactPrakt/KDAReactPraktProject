@@ -2,7 +2,7 @@ import React, {FC} from "react";
 import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {IIngridient} from "../../../types/Ingredient";
 import {useDrag} from "react-dnd";
-import {useSelector} from "react-redux";
+import {useSelector} from "../../../types/hooks";
 
 interface IProps {
     onClick: (setActiveIngredientId: string) => void;

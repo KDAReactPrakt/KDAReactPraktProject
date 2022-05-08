@@ -1,8 +1,8 @@
 import {useCallback, useEffect} from "react";
 import IngredientDetails from "../../../IngredientDetails/IngredientDetails";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelector} from "../../../../types/hooks";
 import {useRouteMatch} from "react-router-dom";
-import {CLEAR_CURRENT_ITEM, GET_CURRENT_ITEM} from "../../../../services/actions/currentItem";
+import {CLEAR_CURRENT_ITEM, GET_CURRENT_ITEM} from "../../../../services/constants/currentItem";
 import {TCallbackVV} from "../../../../types/callback";
 import {IIngridient} from "../../../../types/Ingredient";
 
