@@ -14,7 +14,7 @@ import {
 } from "../constants/profile";
 import {setCookie, getCookie, deleteCookie} from "../../functions/cookies";
 import {IUser} from "../../types/user";
-import {AppDispatch} from "../../types/main";
+import {AppDispatch, AppThunk} from "../../types/main";
 
 //Рыба для пост запроса. Параметры data - объект с данными, path - хвост для ссылки
 const makeRequest = async (data:IUser, path:string) => {
@@ -84,7 +84,7 @@ const makeAuthToken = (data: any) => {
 }
 
 //Производит авторизацию клиента на сервере. Параметры data - данные для пост запроса
-export const logIn = (data:{email:string, password:string}) => {
+export const logIn :AppThunk = (data:{email:string, password:string}) => {
     return async function (dispatch:AppDispatch) {
         dispatch({
             type: GET_LOGIN_INFO
@@ -109,7 +109,7 @@ export const logIn = (data:{email:string, password:string}) => {
 };
 
 //Регистрирует нового пользователя на сервере. Параметры data - данные для пост запроса
-export const registerNewUser = (data:IUser) => {
+export const registerNewUser : AppThunk = (data:IUser) => {
     return async function (dispatch:AppDispatch) {
         dispatch({
             type: GET_REGISTRATION_INFO
@@ -134,7 +134,7 @@ export const registerNewUser = (data:IUser) => {
 }
 
 //Обнуляет сессионные данные пользователя на сервере. Параметры data - данные для пост запроса
-export const logOut = () => {
+export const logOut : AppThunk = () => {
     return async function (dispatch:AppDispatch) {
         dispatch({
             type: GET_LOGOUT_INFO
@@ -171,7 +171,7 @@ export const refreshToken = async () => {
 }
 
 //ПОлучаем информацию о пользователе
-export const getUserInfo = () => {
+export const getUserInfo : AppThunk = () => {
     return async function (dispatch:AppDispatch) {
         dispatch({
             type: GET_USER_INFO
@@ -194,7 +194,7 @@ export const getUserInfo = () => {
 }
 
 //Изменяет данные пользователя
-export const changeUserInfo = (data: IUser) => {
+export const changeUserInfo: AppThunk = (data: IUser) => {
     return async function (dispatch:AppDispatch) {
         dispatch({
             type: CHANGE_USER_INFO

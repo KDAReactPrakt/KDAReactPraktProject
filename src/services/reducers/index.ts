@@ -11,7 +11,7 @@ import {wsReducerUser} from "./wsConnectionUser";
 export const rootReducer = combineReducers({
     ingredients: ingredientsReducer,
     orderNumber: orderNumberReducer,
-    currentItem: currentItemReducer,
+    currentItemToModal: currentItemReducer,
     tab: tabReducer,
     constructorOrder: constructorOrderReducer,
     wsConnection: wsReducer,

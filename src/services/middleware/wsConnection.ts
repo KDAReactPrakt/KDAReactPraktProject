@@ -8,6 +8,8 @@ export const socketMiddleware = (wsUrl : string, wsActions : TWsActions, user : 
         let socket: WebSocket | null = null;
 
         return (next : (item: AnyAction) => void) => (action : AnyAction ) => {
+            if (action===undefined) return;
+
             const { dispatch } = store;
             const { type, payload } = action;
             const { wsInit, wsSendMessage, onOpen, onClose, onError, onMessage } = wsActions;

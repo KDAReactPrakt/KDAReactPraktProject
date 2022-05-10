@@ -22,6 +22,7 @@ import {getCookie} from "../../functions/cookies";
 import {Redirect, useHistory} from "react-router-dom";
 import {IIngridient, TChosenIngredients} from "../../types/Ingredient";
 import {TCallbackVV} from "../../types/callback";
+import {RootState} from "../../types/main";
 
 interface IPosition {
     chosenItemId:number;
@@ -40,13 +41,16 @@ export interface IResult {
 
 const BurgerConstructor = () => {
     const [needToRedirect, setNeedToRedirect] = React.useState<boolean>(false);
-    const bun:IIngridient = useSelector((state: any) => state.constructorOrder.chosenBun);
-    const chosenItems = useSelector((state: any) => state.constructorOrder.chosenItems);
-    const orderNumber = useSelector((state: any) => state.orderNumber.orderNumber);
-    const loadingComplete = useSelector((state: any) => state.orderNumber.orderNumberSuccess);
+    //@ts-ignore Я вообще не понимаю почему могут некоторые типы state/store определятся как "never" а другие норм. Заданы они все одинакого
+    const bun:IIngridient = useSelector((state: RootState) => state.constructorOrder.chosenBun);
+    //@ts-ignore Я вообще не понимаю почему могут некоторые типы state/store определятся как "never" а другие норм. Заданы они все одинакого
+    const chosenItems = useSelector((state: RootState) => state.constructorOrder.chosenItems);
+    const orderNumber = useSelector((state: RootState) => state.orderNumber.orderNumber);
+    const loadingComplete = useSelector((state: RootState) => state.orderNumber.orderNumberSuccess);
     const dispatch = useDispatch();
     const history = useHistory();
-    const hoverPosition = useSelector((state: any) => state.constructorOrder.hoverBoundingRect)
+    //@ts-ignore Я вообще не понимаю почему могут некоторые типы state/store определятся как "never" а другие норм. Заданы они все одинакого
+    const hoverPosition = useSelector((state: RootState) => state.constructorOrder.hoverBoundingRect)
 
     const [{opacity}, dropTarget] = useDrop({
         accept: "item",

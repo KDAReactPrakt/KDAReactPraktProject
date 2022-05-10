@@ -20,7 +20,7 @@ const ItemCard: FC<IProps> = (props) => {
             opacity: monitor.isDragging() ? 0.5 : 1
         })
     });
-    // @ts-ignore
+    //@ts-ignore Я вообще не понимаю почему могут некоторые типы state/store определятся как "never" а другие норм. Заданы они все одинакого
     const chosenBun = useSelector(state => state.constructorOrder.chosenBun)
 
     const count = item.type === 'bun' ? (item._id === chosenBun._id ? 2 : 0) : item.count;

@@ -3,19 +3,19 @@ import {
     GET_ORDER_NUMBER_FAILED,
     GET_ORDER_NUMBER_SUCCESS
 } from '../constants/orderNumber';
-import {URL} from '../../data/data'
+import {PROFILE_URL} from '../../data/data'
 import {checkResponse} from "../../functions/checkResponse";
 import {IResult} from "../../components/BurgerConstructor/BurgerConstructor";
-import {AppDispatch} from "../../types/main";
+import {AppDispatch, AppThunk} from "../../types/main";
 import {getCookie} from "../../functions/cookies";
 
-export function getOrderNumberAPI(post: IResult) {
+export const getOrderNumberAPI : AppThunk = (post: IResult) => {
     return function (dispatch: AppDispatch) {
         dispatch({
             type: GET_ORDER_NUMBER
         })
         // Запрашиваем данные у сервера
-        fetch(URL + 'orders', {
+        fetch(PROFILE_URL + 'orders', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8',

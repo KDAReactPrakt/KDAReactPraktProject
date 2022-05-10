@@ -3,19 +3,19 @@ import {
     GET_INGREDIENT_FAILED,
     GET_INGREDIENT_SUCCESS
 } from '../constants/ingredient';
-import {URL} from '../../data/data'
+import {PROFILE_URL} from '../../data/data'
 import ingredientsMap from "../../functions/ingredientsMap";
 import {checkResponse} from "../../functions/checkResponse";
-import {AppDispatch} from "../../types/main";
+import {AppDispatch, AppThunk} from "../../types/main";
 
 //getIngredientData - получаем данные по ингредиентам из Api для REDUX
-export function getIngredientData() {
+export const getIngredientData : AppThunk = () => {
     return function (dispatch:AppDispatch) {
         dispatch({
             type: GET_INGREDIENT
         })
         // Запрашиваем данные у сервера
-        fetch(URL + 'ingredients').then(checkResponse)
+        fetch(PROFILE_URL + 'ingredients').then(checkResponse)
             .then(res => {
                 let result: any = ingredientsMap(res.data)
                 dispatch({
