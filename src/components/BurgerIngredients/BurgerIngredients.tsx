@@ -8,10 +8,9 @@ import {useDispatch, useSelector} from "../../types/hooks";
 import {CLEAR_CURRENT_ITEM, GET_CURRENT_ITEM} from "../../services/constants/currentItem";
 import {SET_TAB} from "../../services/constants/tabs";
 import {IIngridient} from "../../types/Ingredient";
-import {RootState} from "../../types/main";
 
 const AddTab = () => {
-    const current = useSelector((state: RootState) => state.tab.activeTab)
+    const current = useSelector((state) => state.tab.activeTab)
     return (
         <div style={{ display: 'flex' }}>
             <Tab value="one" active={current === 'one'} onClick={()=>{}}>
@@ -28,10 +27,9 @@ const AddTab = () => {
 }
 
 const BurgerIngredients = () => {
-    //@ts-ignore Я вообще не понимаю почему могут некоторые типы state/store определятся как "never" а другие норм. Заданы они все одинакого
-    const activeModal = useSelector((state: RootState) => state.currentItemToModal.activeModal)
+    const activeModal = useSelector((state) => state.currentItemToModal.activeModal)
     const [height, setHeight] = useState<number>(0);
-    const data = useSelector( (state: RootState) => state.ingredients.ingredientsData)
+    const data = useSelector( (state) => state.ingredients.ingredientsData)
     const dispatch = useDispatch();
     const ref = useRef<HTMLDivElement | any>(null);
     const refBun = useRef<HTMLDivElement | any>(null);

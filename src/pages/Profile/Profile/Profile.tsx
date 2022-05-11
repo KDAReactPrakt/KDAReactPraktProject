@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from "react";
+import React, {SyntheticEvent, useCallback, useEffect} from "react";
 import style from './Profile.module.css'
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {NavLink, useHistory} from "react-router-dom";
@@ -57,7 +57,8 @@ const Profile = () => {
         dispatch(changeUserInfo(form))
     },[email, name])
 
-    const cancel = useCallback<TCallbackVV>( () => {
+    const cancel = useCallback( (e:SyntheticEvent) => {
+        e.preventDefault()
         setEmail(user.email || '');
         setName(user.name || '');
         dispatch(getUserInfo()).then(setIsLoading(false))
@@ -92,68 +93,70 @@ const Profile = () => {
             {isOrderHistory ? (
                 <Orders/>
             ) : (
-                <div className={style.data}>
-                    <div className={style.dataItem}>
-                        <Input
-                            type={'text'}
-                            placeholder={'Имя'}
-                            onChange={e => {
-                                setName(e.target.value);
-                                setIsDefault(false)
-                            }}
-                            icon={'EditIcon'}
-                            value={name || ''}
-                            name={'name'}
-                            error={false}
-                            errorText={'Ошибка'}
-                            size={'default'}
-                        />
-                    </div>
-                    <div className={style.dataItem}>
-                        <Input
-                            type={'email'}
-                            placeholder={'E-mail'}
-                            onChange={e => {
-                                setEmail(e.target.value);
-                                setIsDefault(false)
-                            }}
-                            icon={'EditIcon'}
-                            value={email || ''}
-                            name={'name'}
-                            error={false}
-                            errorText={'Ошибка'}
-                            size={'default'}
-                        />
-                    </div>
-                    <div className={style.dataItem}>
-                        <Input
-                            type={'password'}
-                            placeholder={'Пароль'}
-                            onChange={e => {
-                                setPwd(e.target.value);
-                                setIsDefault(false)
-                            }}
-                            icon={'EditIcon'}
-                            value={pwd || ''}
-                            name={'name'}
-                            error={false}
-                            errorText={'Ошибка'}
-                            size={'default'}
-                        />
-                    </div>
-                    <div className={style.button}>
-                        <Button type="primary" size="large" onClick={save}>
-                            Сохранить
-                        </Button>
-                    </div>
-                    {!isDefault && (
+                <form onSubmit={cancel}>
+                    <div className={style.data}>
+                        <div className={style.dataItem}>
+                            <Input
+                                type={'text'}
+                                placeholder={'Имя'}
+                                onChange={e => {
+                                    setName(e.target.value);
+                                    setIsDefault(false)
+                                }}
+                                icon={'EditIcon'}
+                                value={name || ''}
+                                name={'name'}
+                                error={false}
+                                errorText={'Ошибка'}
+                                size={'default'}
+                            />
+                        </div>
+                        <div className={style.dataItem}>
+                            <Input
+                                type={'email'}
+                                placeholder={'E-mail'}
+                                onChange={e => {
+                                    setEmail(e.target.value);
+                                    setIsDefault(false)
+                                }}
+                                icon={'EditIcon'}
+                                value={email || ''}
+                                name={'name'}
+                                error={false}
+                                errorText={'Ошибка'}
+                                size={'default'}
+                            />
+                        </div>
+                        <div className={style.dataItem}>
+                            <Input
+                                type={'password'}
+                                placeholder={'Пароль'}
+                                onChange={e => {
+                                    setPwd(e.target.value);
+                                    setIsDefault(false)
+                                }}
+                                icon={'EditIcon'}
+                                value={pwd || ''}
+                                name={'name'}
+                                error={false}
+                                errorText={'Ошибка'}
+                                size={'default'}
+                            />
+                        </div>
                         <div className={style.button}>
-                            <Button type="primary" size="large" onClick={cancel}>
-                                Отменить
+                            <Button type="primary" size="large" onClick={save}>
+                                Сохранить
                             </Button>
                         </div>
-                    )}
-                </div>
+                        {!isDefault && (
+                            <div className={style.button}>
+                                <Button type="primary" size="large">
+                                    Отменить
+                                </Button>
+                            </div>
+                        )}
+                    </div>
+                </form>
             )}
         </div>
     )

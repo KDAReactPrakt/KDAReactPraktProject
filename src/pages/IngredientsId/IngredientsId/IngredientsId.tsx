@@ -5,14 +5,13 @@ import {useRouteMatch} from "react-router-dom";
 import {CLEAR_CURRENT_ITEM, GET_CURRENT_ITEM} from "../../../services/constants/currentItem";
 import {TCallbackVV} from "../../../types/callback";
 import {IIngridient} from "../../../types/Ingredient";
-import {RootState} from "../../../types/main";
 
 interface IPath {
         id?: string
 }
 
 const IngredientsId = () => {
-    const data = useSelector((state: RootState) => state.ingredients.ingredientsData);
+    const data = useSelector((state) => state.ingredients.ingredientsData);
     const id: IPath = useRouteMatch().params
     const dispatch = useDispatch();
 

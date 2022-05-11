@@ -1,11 +1,9 @@
 import React from "react";
 import style from './IngredientDetails.module.css'
 import {useSelector} from "../../types/hooks";
-import {RootState} from "../../types/main";
 
 const IngredientDetails = () => {
-    //@ts-ignore Я вообще не понимаю почему могут некоторые типы state/store определятся как "never" а другие норм. Заданы они все одинакого
-    const data = useSelector( (state:RootState) => state.currentItemToModal.currentItem)
+    const data = useSelector( (state) => state.currentItemToModal.currentItem)
     return (
         <div className={style.infoBlock}>
             <div className={style.image}>

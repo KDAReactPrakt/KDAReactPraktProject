@@ -11,7 +11,6 @@ import {
 import Modal from "../../components/Modal/Modal";
 import {FeedId} from "../FeedId/FeedId";
 import {WS_CONNECTION_CLOSED_USER, WS_CONNECTION_START_USER} from "../../services/constants/wsConnectionUser";
-import {RootState} from "../../types/main";
 
 export const  Orders:FC = () => {
     const dispatch = useDispatch();
@@ -22,9 +21,8 @@ export const  Orders:FC = () => {
         };
     }, [dispatch]);
 
-    const orders = useSelector((store:RootState)=> store.wsConnectionUser.data.orders);
-    //@ts-ignore Я вообще не понимаю почему могут некоторые типы state/store определятся как "never" а другие норм. Заданы они все одинакого
-    const activeModal = useSelector((store:RootState) => store.currentItemToModal.currentOrderNumber)
+    const orders = useSelector((store)=> store.wsConnectionUser.data.orders);
+    const activeModal = useSelector((store) => store.currentItemToModal.currentOrderNumber)
     const closeModal = useCallback(()=> {
         window.history.pushState(null,'','/');
         dispatch({

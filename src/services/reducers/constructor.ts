@@ -74,7 +74,7 @@ export const constructorOrderReducer = (state:IConstructorInitialState = constru
             return {
                 ...state,
                 chosenItems: [],
-                chosenBun: {}
+                chosenBun: {} as IIngridient
             }
         }
         default: {

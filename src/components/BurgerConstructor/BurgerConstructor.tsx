@@ -21,8 +21,7 @@ import { v4 as uuidv4 } from 'uuid';
 import {getCookie} from "../../functions/cookies";
 import {Redirect, useHistory} from "react-router-dom";
 import {IIngridient, TChosenIngredients} from "../../types/Ingredient";
-import {TCallbackVV} from "../../types/callback";
-import {RootState} from "../../types/main";
+
 
 interface IPosition {
     chosenItemId:number;
@@ -41,16 +40,13 @@ export interface IResult {
 
 const BurgerConstructor = () => {
     const [needToRedirect, setNeedToRedirect] = React.useState<boolean>(false);
-    //@ts-ignore Я вообще не понимаю почему могут некоторые типы state/store определятся как "never" а другие норм. Заданы они все одинакого
-    const bun:IIngridient = useSelector((state: RootState) => state.constructorOrder.chosenBun);
-    //@ts-ignore Я вообще не понимаю почему могут некоторые типы state/store определятся как "never" а другие норм. Заданы они все одинакого
-    const chosenItems = useSelector((state: RootState) => state.constructorOrder.chosenItems);
-    const orderNumber = useSelector((state: RootState) => state.orderNumber.orderNumber);
-    const loadingComplete = useSelector((state: RootState) => state.orderNumber.orderNumberSuccess);
+    const bun:IIngridient = useSelector((state) => state.constructorOrder.chosenBun);
+    const chosenItems = useSelector((state) => state.constructorOrder.chosenItems);
+    const orderNumber = useSelector((state) => state.orderNumber.orderNumber);
+    const loadingComplete = useSelector((state) => state.orderNumber.orderNumberSuccess);
     const dispatch = useDispatch();
     const history = useHistory();
-    //@ts-ignore Я вообще не понимаю почему могут некоторые типы state/store определятся как "never" а другие норм. Заданы они все одинакого
-    const hoverPosition = useSelector((state: RootState) => state.constructorOrder.hoverBoundingRect)
+    const hoverPosition = useSelector((state) => state.constructorOrder.hoverBoundingRect)
 
     const [{opacity}, dropTarget] = useDrop({
         accept: "item",
@@ -147,7 +143,7 @@ const BurgerConstructor = () => {
         return bunSum + chosenItemsSum;
     }
 
-    const sum = useMemo<TCallbackVV>(() =>getSum(), [bun, chosenItems])
+    const sum = useMemo<number>(() =>getSum(), [bun, chosenItems])
 
     const getOrderNumber = () => {
         let result: IResult = {

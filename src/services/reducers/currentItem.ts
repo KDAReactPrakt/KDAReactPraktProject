@@ -23,22 +23,26 @@ export const currentItemReducer = (state:ICurrentItemInitialState = currentItemI
     switch (action.type) {
         case GET_CURRENT_ITEM: {
             return {
+                ...state,
                 currentItem: action.data,
                 activeModal: true
             }
         }
         case CLEAR_CURRENT_ITEM:
             return {
-                currentItem: {},
+                ...state,
+                currentItem: {} as IIngridient,
                 activeModal: false
             }
         case GET_CURRENT_ORDER_NUMBER:
             return {
+                ...state,
                 currentOrderNumber: action.data,
                 activeModal: true
             }
         case CLEAR_CURRENT_ORDER_NUMBER:
             return {
+                ...state,
                 currentOrderNumber: '',
                 activeModal: false
             }

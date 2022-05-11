@@ -20,7 +20,6 @@ import {ProtectedForAuthRoute} from "../ProtectedForAuthRoute/ProtectedForAuthRo
 import {ProtectedForAnyRoute} from "../ProtectedForAnyRoute/ProtectedForAnyRoute";
 import {Feed} from "../../pages/Feed/Feed";
 import {FeedId} from "../../pages/FeedId/FeedId";
-import {RootState} from "../../types/main";
 
 
 function App() {
@@ -30,7 +29,7 @@ function App() {
         dispatch(getIngredientData());
     },[dispatch])
 
-    const loadingComplete = useSelector((state:RootState) => {
+    const loadingComplete = useSelector((state) => {
         return state.ingredients.ingredientsSuccess;
     })
 

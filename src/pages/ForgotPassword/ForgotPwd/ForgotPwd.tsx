@@ -1,9 +1,8 @@
-import React, {useCallback} from "react";
+import React, {SyntheticEvent, useCallback} from "react";
 import style from '../../Login/Login/Login.module.css'
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, Redirect, useHistory} from "react-router-dom";
 import {resetPwd} from "../../../functions/resetPwd";
-import {TCallbackSV} from "../../../types/callback";
 
 const ForgotPwd = () => {
     const [emailToReset, setEmailToReset] = React.useState<string>("");
@@ -11,7 +10,8 @@ const ForgotPwd = () => {
     const [needToRedirect, setNeedToRedirect] = React.useState<boolean>(false)
     const history = useHistory();
 
-    const next = useCallback<TCallbackSV>((emailToReset) => {
+    const next = useCallback((e:SyntheticEvent) => {
+        e.preventDefault();
         setLoading(true);
         resetPwd({email:emailToReset})
             .then(res => res ? setNeedToRedirect(true) : alert("Попробуйте снова"))
@@ -26,20 +26,15 @@ const ForgotPwd = () => {
             state: { from: history.location.pathname }
         }}/>
     ):(
+        <form onSubmit={!loading ? next : ()=>{}}>
             <div className={style.mainBlock}>
                 <h1>
                     <p className="text text_type_main-medium">
                         Восстановление пароля
                     </p>
                 </h1>
+
                 <div className={style.elem}>
-                    {/*Про инпуты - на мой взгляд это как максимум можно отправить в "можно лучше", но это нельзя считать
-                    критически важной доработкой, ввиду того, что сейчас функционал работает согласно ТЗ, описанному в уроке.
-                    Необходимость отработки отправки запроса при нажатии клавиши энтер - нигде в ТЗ не прописано(в прошлых уроках про ESC - было).
-                    Функционал работает корректно, для того чтобы переделать на формы - придется переделывать логику у многих
-                    функций. Что при отсутствии строго прописанного требования - большая трата времени, поэтому для чего это
-                    необходимо не совсем понятно
-                    */}
                     <Input
                         type={'email'}
                         placeholder={'E-mail'}
@@ -52,7 +47,7 @@ const ForgotPwd = () => {
                     />
                 </div>
                 <div>
-                    <Button type="primary" size="large" onClick={!loading ? ()=>{next(emailToReset)} : ()=>{}}>
+                    <Button type="primary" size="large">
                         {loading ? 'Происходит запрос' : 'Восстановить'}
                     </Button>
                 </div>
@@ -62,6 +57,7 @@ const ForgotPwd = () => {
                     </p>
                 </div>
             </div>
+        </form>
         )
 }
 

@@ -1,11 +1,9 @@
-import React, {useCallback} from "react";
+import React, {SyntheticEvent, useCallback} from "react";
 import style from '../../Login/Login/Login.module.css'
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, useHistory} from "react-router-dom";
 import {acceptResetPwd} from "../../../functions/acceptResetPwd";
 import {TCallbackSV, TCallbackVV} from "../../../types/callback";
-
-type TCallbackResetPwd = (pwd:string, code:string) => void
 
 const ResetPwd = () => {
     const [code, setCode] = React.useState<string>('');
@@ -23,7 +21,8 @@ const ResetPwd = () => {
         [history]
     );
 
-    const reset = useCallback<TCallbackResetPwd>((pwd, code) => {
+    const reset = useCallback((e:SyntheticEvent) => {
+        e.preventDefault();
         setLoading(true)
         acceptResetPwd(pwd, code )
             .then(res => res ? redirectToPath('/login') : alert("Попробуйте снова"))
@@ -31,49 +30,54 @@ const ResetPwd = () => {
     },[pwd, code]);
 
     return (
-        <div className={style.mainBlock}>
-            <h1>
-                <p className="text text_type_main-medium">
-                    Восстановление пароля
-                </p>
-            </h1>
-            <div className={style.elem}>
-                <Input
-                    type={ pwdStatus ? 'password' : 'text' }
-                    placeholder={'Пароль'}
-                    onChange={e => setPwd(e.target.value)}
-                    icon={ pwdStatus ? 'ShowIcon' : 'HideIcon' }
-                    value={pwd}
-                    name={'name'}
-                    error={false}
-                    onIconClick={onPwdClick}
-                    errorText={'Ошибка'}
-                    size={'default'}
-                />
+        <form onSubmit={!loading ? reset : () => {
+        }}>
+            <div className={style.mainBlock}>
+                <h1>
+                    <p className="text text_type_main-medium">
+                        Восстановление пароля
+                    </p>
+                </h1>
+
+                <div className={style.elem}>
+                    <Input
+                        type={pwdStatus ? 'password' : 'text'}
+                        placeholder={'Пароль'}
+                        onChange={e => setPwd(e.target.value)}
+                        icon={pwdStatus ? 'ShowIcon' : 'HideIcon'}
+                        value={pwd}
+                        name={'name'}
+                        error={false}
+                        onIconClick={onPwdClick}
+                        errorText={'Ошибка'}
+                        size={'default'}
+                    />
+                </div>
+                <div className={style.elem}>
+                    <Input
+                        type={'text'}
+                        placeholder={'Введите код из письма'}
+                        onChange={e => setCode(e.target.value)}
+                        value={code}
+                        name={'name'}
+                        error={false}
+                        errorText={'Ошибка'}
+                        size={'default'}
+                    />
+                </div>
+                <div>
+                    <Button type="primary" size="large">
+                        {loading ? 'Происходит запрос' : 'Восстановить'}
+                    </Button>
+                </div>
+
+                <div className={style.infoBlock}>
+                    <p className="text text_type_main-small">
+                        Вспомнили пароль? <Link to="/login">Войти</Link>
+                    </p>
+                </div>
             </div>
-            <div className={style.elem}>
-                <Input
-                    type={'text'}
-                    placeholder={'Введите код из письма'}
-                    onChange={e => setCode(e.target.value)}
-                    value={code}
-                    name={'name'}
-                    error={false}
-                    errorText={'Ошибка'}
-                    size={'default'}
-                />
-            </div>
-            <div>
-                <Button type="primary" size="large" onClick={!loading ? () => reset(pwd, code) : () => {}}>
-                    {loading ? 'Происходит запрос' : 'Восстановить'}
-                </Button>
-            </div>
-            <div className={style.infoBlock}>
-                <p className="text text_type_main-small">
-                    Вспомнили пароль? <Link to="/login">Войти</Link>
-                </p>
-            </div>
-        </div>
+        </form>
     )
 }
 

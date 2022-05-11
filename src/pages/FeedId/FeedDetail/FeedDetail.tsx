@@ -1,4 +1,4 @@
-import React, {FC, useCallback} from 'react';
+import React, {FC} from 'react';
 import { useSelector } from '../../../types/hooks';
 import {useLocation, useParams} from 'react-router-dom';
 import { getOrderDate } from '../../../functions/getDateToOrder';
@@ -6,7 +6,6 @@ import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components
 import { TOrder } from '../../../types/wsData';
 import styles from './FeedDetail.module.css';
 import {IIngridient} from "../../../types/Ingredient";
-import {RootState} from "../../../types/main";
 
 interface IOrderItem {
     readonly id: string;
@@ -19,14 +18,14 @@ const FeedDetails: FC = () => {
     const path = useLocation().pathname;
     const finallyId = idFromStore === '' ? id : idFromStore;
     const orders  = useSelector(
-        (store:RootState) => (path.indexOf('feed') === -1) ? store.wsConnectionUser.data.orders : store.wsConnection.data.orders
+        (store) => (path.indexOf('feed') === -1) ? store.wsConnectionUser.data.orders : store.wsConnection.data.orders
     );
     const loadingOver = useSelector(
-        (store:RootState) => (path.indexOf('feed') === -1) ? store.wsConnectionUser.wsConnected : store.wsConnection.wsConnected
+        (store) => (path.indexOf('feed') === -1) ? store.wsConnectionUser.wsConnected : store.wsConnection.wsConnected
     );
 
     const items = useSelector(
-        (store:RootState) => store.ingredients.ingredientsData
+        (store) => store.ingredients.ingredientsData
     )
 
     let order = null;

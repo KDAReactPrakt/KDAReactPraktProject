@@ -4,11 +4,10 @@ import {IIngridient} from "../../types/Ingredient";
 import {useSelector} from "../../types/hooks";
 import {CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {IFeedItem} from "../../types/wsData";
-import {RootState} from "../../types/main";
 
 export const  OrderIcons:FC<IFeedItem> = (props) => {
     const {elem} = props;
-    const data = useSelector( (state: RootState) => state.ingredients.ingredientsData);
+    const data = useSelector( (state) => state.ingredients.ingredientsData);
     let price = 0;
     return (
         <div className={styles.main_block}>

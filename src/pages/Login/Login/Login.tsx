@@ -1,4 +1,4 @@
-import React from "react";
+import React, {SyntheticEvent} from "react";
 import style from './Login.module.css'
 import {Button, Input} from "@ya.praktikum/react-developer-burger-ui-components";
 import {Link, Redirect, useLocation} from "react-router-dom";
@@ -17,7 +17,8 @@ const Login = () => {
     const location = useLocation<ILocation>();
     const refer = location.state && location.state.from;
     const dispatch = useDispatch();
-    const enter = () => {
+    const enter = (e:SyntheticEvent) => {
+        e.preventDefault();
         let form = {
             email: email,
             password: pwd
@@ -28,12 +29,14 @@ const Login = () => {
     return needToRedirect === true ? (
         <Redirect to={refer}/>
     ) : (
+        <form onSubmit={enter}>
             <div className={style.mainBlock}>
                 <h1>
                     <p className="text text_type_main-medium">
                         Вход
                     </p>
                 </h1>
+
                 <div className={style.elem}>
                     <Input
                         type={'email'}
@@ -48,10 +51,10 @@ const Login = () => {
                 </div>
                 <div className={style.elem}>
                     <Input
-                        type={ pwdStatus ? 'password' : 'text' }
+                        type={pwdStatus ? 'password' : 'text'}
                         placeholder={'Пароль'}
                         onChange={e => setPwd(e.target.value)}
-                        icon={ pwdStatus ? 'ShowIcon' : 'HideIcon' }
+                        icon={pwdStatus ? 'ShowIcon' : 'HideIcon'}
                         value={pwd}
                         name={'name'}
                         error={false}
@@ -61,10 +64,12 @@ const Login = () => {
                     />
                 </div>
                 <div>
-                    <Button type="primary" size="large" onClick={enter}>
+                    <Button type="primary" size="large">
                         Войти
                     </Button>
                 </div>
+
+
                 <div className={style.infoBlock}>
                     <p className="text text_type_main-small">
                         Вы новый пользователь? <Link to="/register">Зарегистрироваться</Link>
@@ -74,7 +79,8 @@ const Login = () => {
                     </p>
                 </div>
             </div>
-        )
+        </form>
+    )
 
 }
 
