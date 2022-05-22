@@ -38,7 +38,7 @@ function App() {
             <Router>
                 <AppHeader/>
                 <Switch>
-                    <Route path="/KDAReactPraktProject/index.html">
+                    <Route path="/KDAReactPraktProject">
                         <Redirect to="/"/>
                     </Route>
                     <ProtectedForAuthRoute path="/login">
