@@ -7,6 +7,10 @@ import { compose, createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import {rootReducer} from "./services/reducers";
 import { Provider } from 'react-redux';
+import {wsActions} from "./services/actions/wsConnection";
+import {wsActionsUser} from "./services/actions/wsConnectionUser"
+import {WS_URL_ALL, WS_URL_OWNER} from "./data/data";
+import {socketMiddleware} from "./services/middleware/wsConnection";
 
 declare global {
     interface Window {
@@ -16,9 +20,13 @@ declare global {
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const enhancer = composeEnhancers(applyMiddleware(thunk));
+const enhancer = composeEnhancers(applyMiddleware(
+    thunk,
+    socketMiddleware(WS_URL_ALL, wsActions, false),
+    socketMiddleware(WS_URL_OWNER, wsActionsUser, true),
+));
 
-const store = createStore(rootReducer, enhancer);
+export const store = createStore(rootReducer, enhancer);
 
 ReactDOM.render(
   <React.StrictMode>

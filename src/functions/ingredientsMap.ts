@@ -2,7 +2,7 @@ import {IIngridient} from "../types/Ingredient";
 
 
 function ingredientsMap(array: Array<IIngridient>) {
-    return Array.isArray(array) && array.map((item) => {
+    return array.map((item) => {
         return {
             _id: item._id ? item._id : '',
             name: item.name ? item.name : '',

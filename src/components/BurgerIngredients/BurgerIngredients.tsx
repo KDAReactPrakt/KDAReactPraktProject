@@ -4,13 +4,13 @@ import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import ItemCard from "./ItemCard/ItemCard";
 import Modal from "../Modal/Modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
-import {useDispatch, useSelector} from "react-redux";
-import {CLEAR_CURRENT_ITEM, GET_CURRENT_ITEM} from "../../services/actions/currentItem";
-import {SET_TAB} from "../../services/actions/tabs";
-import {IIngridient, TChosenIngredients} from "../../types/Ingredient";
+import {useDispatch, useSelector} from "../../types/hooks";
+import {CLEAR_CURRENT_ITEM, GET_CURRENT_ITEM} from "../../services/constants/currentItem";
+import {SET_TAB} from "../../services/constants/tabs";
+import {IIngridient} from "../../types/Ingredient";
 
 const AddTab = () => {
-    const current = useSelector((state: any) => state.tab.activeTab)
+    const current = useSelector((state) => state.tab.activeTab)
     return (
         <div style={{ display: 'flex' }}>
             <Tab value="one" active={current === 'one'} onClick={()=>{}}>
@@ -27,9 +27,9 @@ const AddTab = () => {
 }
 
 const BurgerIngredients = () => {
-    const activeModal = useSelector((state: any) => state.currentItem.activeModal)
+    const activeModal = useSelector((state) => state.currentItemToModal.activeModal)
     const [height, setHeight] = useState<number>(0);
-    const data = useSelector( (state: any) => state.ingredients.ingredientsData)
+    const data = useSelector( (state) => state.ingredients.ingredientsData)
     const dispatch = useDispatch();
     const ref = useRef<HTMLDivElement | any>(null);
     const refBun = useRef<HTMLDivElement | any>(null);
@@ -84,8 +84,9 @@ const BurgerIngredients = () => {
         })
     }
 
-    const findElement = (id:string) => {
-        return data.find( (item:TChosenIngredients) => item._id === id)
+    const findElement = (id:string) : IIngridient => {
+        const res = data.find( (item:IIngridient) => item._id === id);
+        return res !== undefined ? res : {} as IIngridient
     }
 
     return (

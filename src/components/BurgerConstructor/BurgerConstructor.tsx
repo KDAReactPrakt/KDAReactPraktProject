@@ -3,9 +3,9 @@ import {Button, ConstructorElement, CurrencyIcon} from "@ya.praktikum/react-deve
 import style from './BurgerConstructor.module.css'
 import Modal from "../Modal/Modal";
 import OrderDetails from "../OrderDetails/OrderDetails";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelector} from "../../types/hooks";
 import {getOrderNumberAPI} from "../../services/actions/getOrderNumberAPI";
-import {CLEAR_ORDER_NUMBER} from "../../services/actions/orderNumber";
+import {CLEAR_ORDER_NUMBER} from "../../services/constants/orderNumber";
 import {useDrop, XYCoord} from "react-dnd";
 import {
     CHANGE_POSITION, CLEAR_BASKET,
@@ -14,14 +14,14 @@ import {
     SET_BUN,
     SET_HOVER_POSITION,
     SET_ITEM
-} from "../../services/actions/constructor";
-import {CLEAR_COUNT, DECREASE_ITEM_COUNT, INCREASE_ITEM_COUNT} from "../../services/actions/ingredient";
+} from "../../services/constants/constructor";
+import {CLEAR_COUNT, DECREASE_ITEM_COUNT, INCREASE_ITEM_COUNT} from "../../services/constants/ingredient";
 import ChosenItems from "./ChosenItems/ChosenItems";
 import { v4 as uuidv4 } from 'uuid';
 import {getCookie} from "../../functions/cookies";
 import {Redirect, useHistory} from "react-router-dom";
 import {IIngridient, TChosenIngredients} from "../../types/Ingredient";
-import {TCallbackVV} from "../../types/callback";
+
 
 interface IPosition {
     chosenItemId:number;
@@ -34,19 +34,19 @@ interface IPosition {
     }
 }
 
-interface IResult {
+export interface IResult {
     ingredients: string[]
 }
 
 const BurgerConstructor = () => {
     const [needToRedirect, setNeedToRedirect] = React.useState<boolean>(false);
-    const bun:IIngridient = useSelector((state: any) => state.constructorOrder.chosenBun);
-    const chosenItems = useSelector((state: any) => state.constructorOrder.chosenItems);
-    const orderNumber = useSelector((state: any) => state.orderNumber.orderNumber);
-    const loadingComplete = useSelector((state: any) => state.orderNumber.orderNumberSuccess);
+    const bun:IIngridient = useSelector((state) => state.constructorOrder.chosenBun);
+    const chosenItems = useSelector((state) => state.constructorOrder.chosenItems);
+    const orderNumber = useSelector((state) => state.orderNumber.orderNumber);
+    const loadingComplete = useSelector((state) => state.orderNumber.orderNumberSuccess);
     const dispatch = useDispatch();
     const history = useHistory();
-    const hoverPosition = useSelector((state: any) => state.constructorOrder.hoverBoundingRect)
+    const hoverPosition = useSelector((state) => state.constructorOrder.hoverBoundingRect)
 
     const [{opacity}, dropTarget] = useDrop({
         accept: "item",
@@ -143,7 +143,7 @@ const BurgerConstructor = () => {
         return bunSum + chosenItemsSum;
     }
 
-    const sum = useMemo<TCallbackVV>(() =>getSum(), [bun, chosenItems])
+    const sum = useMemo<number>(() =>getSum(), [bun, chosenItems])
 
     const getOrderNumber = () => {
         let result: IResult = {

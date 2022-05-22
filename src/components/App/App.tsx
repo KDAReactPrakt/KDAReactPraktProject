@@ -4,20 +4,22 @@ import AppHeader from "../AppHeader/AppHeader";
 import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 import {getIngredientData} from "../../services/actions/getIngredient";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelector} from "../../types/hooks";
 import {DndProvider} from "react-dnd";
 import {HTML5Backend} from "react-dnd-html5-backend";
 import {Route, BrowserRouter as Router, Switch} from "react-router-dom";
 import NotFound from "../NotFound/NotFound";
-import Login from "../pages/Login/Login/Login";
-import Register from "../pages/Register/Register/Register";
-import ForgotPwd from "../pages/ForgotPassword/ForgotPwd/ForgotPwd";
-import ResetPwd from "../pages/ResetPassword/ResetPwd/ResetPwd";
-import Profile from "../pages/Profile/Profile/Profile";
+import Login from "../../pages/Login/Login/Login";
+import Register from "../../pages/Register/Register/Register";
+import ForgotPwd from "../../pages/ForgotPassword/ForgotPwd/ForgotPwd";
+import ResetPwd from "../../pages/ResetPassword/ResetPwd/ResetPwd";
+import Profile from "../../pages/Profile/Profile/Profile";
 import {ProtectedRoute} from "../ProtectedRoute/ProtectedRoute";
-import IngredientsId from "../pages/IngredientsId/IngredientsId/IngredientsId";
+import IngredientsId from "../../pages/IngredientsId/IngredientsId/IngredientsId";
 import {ProtectedForAuthRoute} from "../ProtectedForAuthRoute/ProtectedForAuthRoute";
 import {ProtectedForAnyRoute} from "../ProtectedForAnyRoute/ProtectedForAnyRoute";
+import {Feed} from "../../pages/Feed/Feed";
+import {FeedId} from "../../pages/FeedId/FeedId";
 
 
 function App() {
@@ -27,7 +29,7 @@ function App() {
         dispatch(getIngredientData());
     },[dispatch])
 
-    const loadingComplete = useSelector((state: any) => {
+    const loadingComplete = useSelector((state) => {
         return state.ingredients.ingredientsSuccess;
     })
 
@@ -48,11 +50,23 @@ function App() {
                     <ProtectedForAnyRoute path="/reset-password">
                         <ResetPwd/>
                     </ProtectedForAnyRoute>
-                    <ProtectedRoute path="/profile">
+                    <ProtectedRoute path="/profile" exact={true}>
                         <Profile/>
+                    </ProtectedRoute>
+                    <ProtectedRoute path="/profile/orders" exact={true}>
+                        <Profile/>
+                    </ProtectedRoute>
+                    <ProtectedRoute path="/profile/order/:id" exact={true}>
+                        <FeedId/>
                     </ProtectedRoute>
                     <Route path="/ingredients/:id">
                         <IngredientsId/>
+                    </Route>
+                    <Route path="/feed/:id">
+                        <FeedId/>
+                    </Route>
+                    <Route path="/feed/">
+                        <Feed/>
                     </Route>
                     <Route path="/" exact={true}>
                         <DndProvider  backend={HTML5Backend}>

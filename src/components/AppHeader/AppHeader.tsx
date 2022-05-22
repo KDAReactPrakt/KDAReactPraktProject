@@ -21,7 +21,7 @@ const AppHeader = () =>{
                             </p>
                         </section>
                     </Link>
-                    <Link to={'/orders'}>
+                    <Link to={'/feed'}>
                         <section className={style.menuItem}>
                             <ListIcon type={ isOrders ? "primary" : "secondary" }/>
                             <p className={ !isOrders ? "text text_type_main-default":"text text_type_main-default " + style.active}>

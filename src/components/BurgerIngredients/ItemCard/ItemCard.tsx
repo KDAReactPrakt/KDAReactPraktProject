@@ -2,7 +2,7 @@ import React, {FC} from "react";
 import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {IIngridient} from "../../../types/Ingredient";
 import {useDrag} from "react-dnd";
-import {useSelector} from "react-redux";
+import {useSelector} from "../../../types/hooks";
 
 interface IProps {
     onClick: (setActiveIngredientId: string) => void;
@@ -20,7 +20,6 @@ const ItemCard: FC<IProps> = (props) => {
             opacity: monitor.isDragging() ? 0.5 : 1
         })
     });
-    // @ts-ignore
     const chosenBun = useSelector(state => state.constructorOrder.chosenBun)
 
     const count = item.type === 'bun' ? (item._id === chosenBun._id ? 2 : 0) : item.count;

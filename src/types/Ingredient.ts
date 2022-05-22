@@ -11,7 +11,7 @@ export interface IIngridient  {
         readonly image_mobile: string;
         readonly image_large: string;
         readonly __v?: string;
-        count?: number
+        count: number
 }
 
 export type TChosenIngredients = {

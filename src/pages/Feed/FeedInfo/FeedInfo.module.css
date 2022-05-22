@@ -1,0 +1,13 @@
+.orders_info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 584px;
+}
+
+.orders_info_block {
+    display: flex;
+    flex-direction: column;
+    margin-left: 60px;
+    text-align: left;
+}
