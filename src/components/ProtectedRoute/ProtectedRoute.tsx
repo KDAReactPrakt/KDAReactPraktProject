@@ -5,6 +5,7 @@ import {FC} from "react";
 
 export const ProtectedRoute: FC<RouteProps> = ({ children, ...rest }) => {
     const history = useHistory();
+    console.log(history.location.pathname);
     if(history.location.pathname === '/index.html') {
        return (
            <Redirect to="/"/>
