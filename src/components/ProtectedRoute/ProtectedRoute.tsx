@@ -5,8 +5,7 @@ import {FC} from "react";
 
 export const ProtectedRoute: FC<RouteProps> = ({ children, ...rest }) => {
     const history = useHistory();
-    console.log(history.location.pathname);
-    if(history.location.pathname === '/index.html') {
+    if(history.location.pathname === '/KDAReactPraktProject/index.html') {
        return (
            <Redirect to="/"/>
        )
