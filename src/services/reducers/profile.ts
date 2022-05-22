@@ -1,5 +1,7 @@
 import {
-    CHANGE_USER_INFO, CHANGE_USER_INFO_FAILED, CHANGE_USER_INFO_SUCCESS,
+    CHANGE_USER_INFO,
+    CHANGE_USER_INFO_FAILED,
+    CHANGE_USER_INFO_SUCCESS,
     GET_LOGIN_INFO,
     GET_LOGIN_INFO_FAILED,
     GET_LOGIN_INFO_SUCCESS,
@@ -8,7 +10,9 @@ import {
     GET_LOGOUT_INFO_SUCCESS,
     GET_REGISTRATION_INFO,
     GET_REGISTRATION_INFO_FAILED,
-    GET_REGISTRATION_INFO_SUCCESS, GET_USER_INFO, GET_USER_INFO_FAILED, GET_USER_INFO_SUCCESS,
+    GET_REGISTRATION_INFO_SUCCESS,
+    GET_USER_INFO, GET_USER_INFO_FAILED,
+    GET_USER_INFO_SUCCESS,
 } from "../constants/profile";
 import {TProfileActions} from "../actions/profile";
 import {IUser} from "../../types/user";
@@ -147,7 +151,7 @@ export const profileReducer = (state: IProfileInitialState = profileInitialState
         case GET_USER_INFO_FAILED: {
             return {
                 ...state,
-                getUsernfo: false,
+                getUserInfo: false,
                 getUserInfoFailed: true,
                 getUserInfoSuccess: false
             };

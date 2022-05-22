@@ -12,6 +12,7 @@ const iInitialSocketState: TInitialSocketState = {
     data: {
         orders: []
     },
+    error: null
 };
 
 export const wsReducerUser = (state = iInitialSocketState, action: TWSActionsUser): TInitialSocketState => {
@@ -20,7 +21,7 @@ export const wsReducerUser = (state = iInitialSocketState, action: TWSActionsUse
             return {
                 ...state,
                 wsConnected: true,
-                error: undefined,
+                error: null,
             };
         case WS_CONNECTION_ERROR_USER:
             return {
@@ -31,13 +32,13 @@ export const wsReducerUser = (state = iInitialSocketState, action: TWSActionsUse
         case WS_CONNECTION_CLOSED_USER:
             return {
                 ...state,
-                error: undefined,
+                error: null,
                 wsConnected: false,
             };
         case WS_GET_ORDERS_USER:
             return {
                 ...state,
-                error: undefined,
+                error: null,
                 data: {
                     ...state.data,
                     orders: action.payload.orders,

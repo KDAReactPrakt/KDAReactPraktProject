@@ -43,7 +43,7 @@ const Login = () => {
                         placeholder={'E-mail'}
                         onChange={e => setEmail(e.target.value)}
                         value={email}
-                        name={'name'}
+                        name={'email'}
                         error={false}
                         errorText={'Ошибка'}
                         size={'default'}
@@ -56,7 +56,7 @@ const Login = () => {
                         onChange={e => setPwd(e.target.value)}
                         icon={pwdStatus ? 'ShowIcon' : 'HideIcon'}
                         value={pwd}
-                        name={'name'}
+                        name={'pwd'}
                         error={false}
                         onIconClick={onPwdClick}
                         errorText={'Ошибка'}

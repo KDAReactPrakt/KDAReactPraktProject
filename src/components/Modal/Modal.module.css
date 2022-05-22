@@ -23,6 +23,8 @@
     transition: opacity 0.2s ease;
 }
 
+.closeIcon {}
+
 .modalWindow {
     position: fixed;
     background-color: rgb(28, 28, 33);
