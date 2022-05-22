@@ -5,11 +5,7 @@ import {FC} from "react";
 
 export const ProtectedRoute: FC<RouteProps> = ({ children, ...rest }) => {
     const history = useHistory();
-    if(history.location.pathname === '/KDAReactPraktProject/index.html') {
-       return (
-           <Redirect to="/"/>
-       )
-    }
+
     if (getCookie('token') === undefined) {
         if(localStorage.getItem('refreshToken') === null ) {
             return (

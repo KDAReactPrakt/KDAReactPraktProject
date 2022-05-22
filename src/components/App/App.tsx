@@ -7,7 +7,7 @@ import {getIngredientData} from "../../services/actions/getIngredient";
 import {useDispatch, useSelector} from "../../types/hooks";
 import {DndProvider} from "react-dnd";
 import {HTML5Backend} from "react-dnd-html5-backend";
-import {Route, BrowserRouter as Router, Switch} from "react-router-dom";
+import {Route, BrowserRouter as Router, Switch, Redirect} from "react-router-dom";
 import NotFound from "../NotFound/NotFound";
 import Login from "../../pages/Login/Login/Login";
 import Register from "../../pages/Register/Register/Register";
@@ -38,6 +38,9 @@ function App() {
             <Router>
                 <AppHeader/>
                 <Switch>
+                    <Route path="/KDAReactPraktProject/index.html">
+                        <Redirect to="/"/>
+                    </Route>
                     <ProtectedForAuthRoute path="/login">
                         <Login/>
                     </ProtectedForAuthRoute>
