@@ -80,8 +80,8 @@ describe('currentItemOrderReducer', () => {
         ).toEqual(
             expect.objectContaining({
                 ...currentItemInitialState,
-                currentOrderNumber: '123123',
-                activeModal: true
+                currentOrderNumber: '',
+                activeModal: false
             })
         );
     })
