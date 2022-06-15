@@ -5,6 +5,7 @@ import {FC} from "react";
 
 export const ProtectedRoute: FC<RouteProps> = ({ children, ...rest }) => {
     const history = useHistory();
+
     if (getCookie('token') === undefined) {
         if(localStorage.getItem('refreshToken') === null ) {
             return (

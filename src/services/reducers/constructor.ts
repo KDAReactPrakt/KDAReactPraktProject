@@ -10,7 +10,7 @@ import {
 import {TConstructorActions} from '../actions/constructor';
 import {IIngridient,TChosenIngredients} from "../../types/Ingredient";
 
-interface IConstructorInitialState {
+export interface IConstructorInitialState {
     chosenBun: IIngridient,
     chosenItems: Array<TChosenIngredients>,
     hoverBoundingRect: number

@@ -14,6 +14,7 @@ const iInitialSocketState: TInitialSocketState = {
         total: 0,
         totalToday: 0
     },
+    error: null
 };
 
 export const wsReducer = (state = iInitialSocketState, action: TWSActions): TInitialSocketState => {
@@ -22,7 +23,7 @@ export const wsReducer = (state = iInitialSocketState, action: TWSActions): TIni
             return {
                 ...state,
                 wsConnected: true,
-                error: undefined,
+                error: null,
             };
         case WS_CONNECTION_ERROR:
             return {
@@ -33,13 +34,13 @@ export const wsReducer = (state = iInitialSocketState, action: TWSActions): TIni
         case WS_CONNECTION_CLOSED:
             return {
                 ...state,
-                error: undefined,
+                error: null,
                 wsConnected: false,
             };
         case WS_GET_ORDERS:
             return {
                 ...state,
-                error: undefined,
+                error: null,
                 data: {
                     ...state.data,
                     orders: action.payload.orders,
